@@ -1,0 +1,16 @@
+id;titulo;empresa;estado;fechaPostulacion;enlace;notas
+1;Desarrollador Java Junior;Indra;pendiente;14/10/2026;https://www.indracompany.com/empleo/java-junior;Contacto por LinkedIn
+2;Backend Developer Spring Boot;Accenture;entrevista;08/10/2026;https://www.accenture.com/es-es/careers/backend-spring;Primera llamada con RRHH el 20/10
+3;Analista Programador;Capgemini;rechazado;02/10/2026;https://www.capgemini.com/es-es/empleo/analista-programador;Pedían 3 años de experiencia
+4;Desarrollador Full Stack;NTT Data;aceptado;21/09/2026;https://es.nttdata.com/empleo/full-stack;Oferta recibida tras la prueba técnica
+5;Técnico de Desarrollo de Software;Minsait;pendiente;16/10/2026;https://www.minsait.com/empleo/tecnico-desarrollo;Enviado desde el portal de empleo
+6;Desarrollador Java;Indra;entrevista;30/09/2026;https://www.indracompany.com/empleo/desarrollador-java;Prueba técnica programada
+7;Programador Junior Java;Capgemini;rechazado;18/09/2026;https://www.capgemini.com/es-es/empleo/programador-junior;Proceso cerrado sin feedback
+8;Desarrollador de APIs REST;Minsait;aceptado;10/09/2026;https://www.minsait.com/empleo/apis-rest;Incorporación prevista en noviembre
+9;Ingeniero de Software Junior;Accenture;pendiente;19/10/2026;https://www.accenture.com/es-es/careers/ingeniero-software-junior;Recomendado por un antiguo compañero
+10;Desarrollador Backend Java;NTT Data;rechazado;25/08/2026;https://es.nttdata.com/empleo/backend-java;Perfil descartado en el filtro inicial
+11;Desarrollador de Aplicaciones;Indra;aceptado;03/09/2026;https://www.indracompany.com/empleo/desarrollador-aplicaciones;Contrato en prácticas
+12;Consultor Tecnológico Junior;Capgemini;pendiente;22/10/2026;https://www.capgemini.com/es-es/empleo/consultor-junior;Pendiente de respuesta
+13;Desarrollador Java y SQL;NTT Data;entrevista;07/10/2026;https://es.nttdata.com/empleo/java-sql;Entrevista técnica el 28/10
+14;Analista Funcional Junior;Minsait;rechazado;29/08/2026;https://www.minsait.com/empleo/analista-funcional;Buscaban perfil más funcional
+15;Desarrollador Java Microservicios;Accenture;entrevista;12/10/2026;https://www.accenture.com/es-es/careers/microservicios;Entrevista con el responsable técnico
