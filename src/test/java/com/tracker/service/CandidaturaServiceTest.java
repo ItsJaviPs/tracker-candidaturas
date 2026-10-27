@@ -147,4 +147,20 @@ class CandidaturaServiceTest {
         assertEquals(5, ids.stream().distinct().count());
         assertTrue(ids.contains(10));
     }
+
+    @Test
+    void listarOrdenaPorFechaMasRecientePrimero() {
+        when(repositorio.findAll()).thenReturn(new ArrayList<>(List.of(
+                new Candidatura(1, "A", "Indra", Estado.PENDIENTE, LocalDate.of(2026, 9, 1), "", ""),
+                new Candidatura(2, "B", "Indra", Estado.PENDIENTE, LocalDate.of(2026, 10, 1), "", ""))));
+
+        List<Candidatura> resultado = servicio.listar(null, null, "fecha");
+
+        assertEquals(List.of(2, 1), resultado.stream().map(Candidatura::id).toList());
+    }
+
+    @Test
+    void listarConCriterioDeOrdenInvalidoLanzaExcepcion() {
+        assertThrows(TrackerException.class, () -> servicio.listar(null, null, "color"));
+    }
 }

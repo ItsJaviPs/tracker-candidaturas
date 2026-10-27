@@ -50,7 +50,7 @@ public class CommandRunner {
                 Uso: java -jar tracker-candidaturas.jar <operación> [argumentos]
 
                 Operaciones:
-                  -listar [--estado X] [--empresa Y]
+                  -listar [--estado X] [--empresa Y] [--ordenar id|fecha|empresa|titulo]
                   -añadir --titulo X --empresa Y --estado Z [--fecha dd/MM/yyyy] [--enlace URL] [--notas TXT]
                   -ver <id>
                   -borrar <id>
@@ -62,7 +62,8 @@ public class CommandRunner {
     }
 
     private void listar(CommandLine linea) {
-        List<Candidatura> resultado = servicio.listar(linea.opcion("estado"), linea.opcion("empresa"));
+        List<Candidatura> resultado = servicio.listar(linea.opcion("estado"), linea.opcion("empresa"),
+                linea.opcion("ordenar"));
         if (resultado.isEmpty()) {
             salida.println("No hay candidaturas que mostrar.");
             return;

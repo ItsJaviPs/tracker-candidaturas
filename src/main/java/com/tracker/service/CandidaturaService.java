@@ -34,15 +34,47 @@ public class CandidaturaService {
      * @throws TrackerException si el estado no es válido
      */
     public List<Candidatura> listar(String estado, String empresa) {
+        return listar(estado, empresa, null);
+    }
+
+    /**
+     * Lista las candidaturas aplicando los filtros indicados y el orden pedido.
+     *
+     * @param estado    estado exacto (texto) o {@code null} para no filtrar
+     * @param empresa   texto contenido en el nombre de la empresa o {@code null}
+     * @param ordenarPor {@code "id"} (por defecto), {@code "fecha"} (más recientes primero),
+     *                   {@code "empresa"} o {@code "titulo"}
+     * @return candidaturas que cumplen los filtros, en el orden pedido
+     * @throws TrackerException si el estado o el criterio de orden no son válidos
+     */
+    public List<Candidatura> listar(String estado, String empresa, String ordenarPor) {
         Estado estadoFiltro = estado == null ? null : Estado.desdeTexto(estado);
         String empresaFiltro = empresa == null ? null : empresa.trim().toLowerCase(Locale.ROOT);
+        Comparator<Candidatura> orden = comparadorPara(ordenarPor);
 
         return repositorio.findAll().stream()
                 .filter(c -> estadoFiltro == null || c.estado() == estadoFiltro)
                 .filter(c -> empresaFiltro == null
                         || c.empresa().toLowerCase(Locale.ROOT).contains(empresaFiltro))
-                .sorted(Comparator.comparingInt(Candidatura::id))
+                .sorted(orden)
                 .toList();
+    }
+
+    private Comparator<Candidatura> comparadorPara(String ordenarPor) {
+        Comparator<Candidatura> porId = Comparator.comparingInt(Candidatura::id);
+        if (ordenarPor == null) {
+            return porId;
+        }
+        return switch (ordenarPor.trim().toLowerCase(Locale.ROOT)) {
+            case "id" -> porId;
+            case "fecha" -> Comparator.comparing(Candidatura::fechaPostulacion).reversed().thenComparing(porId);
+            case "empresa" -> Comparator.comparing((Candidatura c) -> c.empresa().toLowerCase(Locale.ROOT))
+                    .thenComparing(porId);
+            case "titulo" -> Comparator.comparing((Candidatura c) -> c.titulo().toLowerCase(Locale.ROOT))
+                    .thenComparing(porId);
+            default -> throw new TrackerException("Criterio de orden no válido: '" + ordenarPor
+                    + "'. Valores permitidos: id, fecha, empresa, titulo");
+        };
     }
 
     /**
