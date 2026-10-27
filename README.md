@@ -7,11 +7,11 @@ Proyecto integrador del 1.er trimestre (Acceso a Datos + Desarrollo de Interface
 
 ## Versiones
 
-| Tag  | Contenido                                             | Estado       |
-|------|-------------------------------------------------------|--------------|
-| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | Entregada |
-| v2.0 | JDBC + JavaFX (Scene Builder)                          | Pendiente    |
-| v3.0 | Hibernate + JavaFX avanzado + Ollama4j                 | Pendiente    |
+| Tag  | Contenido                                                           | Estado     |
+|------|---------------------------------------------------------------------|------------|
+| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | En curso   |
+| v2.0 | JDBC + JavaFX (Scene Builder)                                       | Pendiente  |
+| v3.0 | Hibernate + JavaFX avanzado + Ollama4j                              | Pendiente  |
 
 ## Tecnologías (v1.0)
 
@@ -42,6 +42,25 @@ $env:TRACKER_DATA="C:\ruta\mis_datos.txt"; java -jar target\tracker-candidaturas
 
 Ejecutar los tests: `mvn test`
 
+### Operaciones
+
+| Comando | Descripción |
+|---------|-------------|
+| `-listar` | Lista todas las candidaturas |
+| `-listar --estado entrevista --empresa Indra` | Filtra por estado (exacto) y/o empresa (contiene el texto) |
+| `-listar --ordenar fecha` | Ordena el listado por `id` (por defecto), `fecha` (más recientes primero), `empresa` o `titulo`. Se puede combinar con los filtros |
+| `-añadir --titulo "Dev Java" --empresa "Indra" --estado pendiente --fecha 26/10/2026` | Añade una candidatura. `--fecha` (por defecto hoy), `--enlace` y `--notas` son opcionales |
+| `-ver 13` | Muestra el detalle de la candidatura 13 |
+| `-borrar 13` | Elimina la candidatura 13 |
+| `-importar data/candidaturas.csv` | Importa candidaturas desde un CSV (si un id ya existe, se asigna el siguiente libre) |
+| `ayuda` | Muestra la ayuda |
+
+Estados válidos: `pendiente`, `entrevista`, `rechazado`, `aceptado`.
+El guion inicial de la operación es opcional (`-listar` = `listar`).
+Si la consola no muestra bien la `ñ`, usa `-anadir` (alias equivalente).
+
+Los errores (argumentos faltantes, fichero no encontrado, id inexistente, fecha, estado u orden no válidos)
+se muestran por consola con un mensaje claro y el programa termina con código de salida 1.
 
 ### Ejemplos de uso
 
@@ -57,26 +76,6 @@ Error por id inexistente:
 
 ![Error](docs/capturas/error.png)
 
-
-### Operaciones
-
-| Comando | Descripción |
-|---------|-------------|
-| `-listar` | Lista todas las candidaturas |
-| `-listar --estado entrevista --empresa Indra` | Filtra por estado (exacto) y/o empresa (contiene el texto) |
-| `-añadir --titulo "Dev Java" --empresa "Indra" --estado pendiente --fecha 26/10/2026` | Añade una candidatura. `--fecha` (por defecto hoy), `--enlace` y `--notas` son opcionales |
-| `-ver 13` | Muestra el detalle de la candidatura 13 |
-| `-borrar 13` | Elimina la candidatura 13 |
-| `-importar data/candidaturas.csv` | Importa candidaturas desde un CSV (si un id ya existe, se asigna el siguiente libre) |
-| `ayuda` | Muestra la ayuda |
-
-Estados válidos: `pendiente`, `entrevista`, `rechazado`, `aceptado`.
-El guion inicial de la operación es opcional (`-listar` = `listar`).
-Si la consola no muestra bien la `ñ`, usa `-anadir` (alias equivalente).
-
-Los errores (argumentos faltantes, fichero no encontrado, id inexistente, fecha o estado no válidos)
-se muestran por consola con un mensaje claro y el programa termina con código de salida 1.
-
 ## Estructura
 
 ```
@@ -85,10 +84,10 @@ src/main/java/com/tracker
 ├── cli/                       Interpretación de argumentos y ejecución de comandos
 ├── model/                     Candidatura (record) y Estado (enum)
 ├── repository/                Interfaz + implementación sobre fichero de texto
-├── service/                   Lógica de negocio (filtros, altas, bajas, importación)
+├── service/                   Lógica de negocio (filtros, orden, altas, bajas, importación)
 └── exception/                 TrackerException
 data/candidaturas.csv          Datos de prueba (15 registros)
-docs/                          Prototipo (PDF) y Manual de estilo (PDF)
+docs/                          Prototipo (PDF), Manual de estilo (PDF) y capturas de la CLI
 ```
 
 ## Datos de prueba
@@ -107,5 +106,5 @@ con fechas de agosto a octubre de 2026. Generado con IA a partir de la plantilla
 
 | Miembro | v1.0 | v2.0 | v3.0 |
 |---------|------|------|------|
-| Javier Peña | [Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba y vídeo de los comandos] | | |
-| Daniel García | [p. ej. CLI, prototipo Figma, manual de estilo, vídeo] | | |
+| Javier Peña | Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba, opción `--ordenar` con sus tests y capturas de la CLI | | |
+| Daniel García | [Pendiente: rellenar con las tareas realizadas, p. ej. prototipo Figma] | | |
