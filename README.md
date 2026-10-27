@@ -42,6 +42,22 @@ $env:TRACKER_DATA="C:\ruta\mis_datos.txt"; java -jar target\tracker-candidaturas
 
 Ejecutar los tests: `mvn test`
 
+
+### Ejemplos de uso
+
+Listado completo:
+
+![Listado](docs/capturas/listar.png)
+
+Filtro por estado y empresa:
+
+![Filtro](docs/capturas/filtrar.png)
+
+Error por id inexistente:
+
+![Error](docs/capturas/error.png)
+
+
 ### Operaciones
 
 | Comando | Descripción |
