@@ -91,5 +91,5 @@ con fechas de agosto a octubre de 2026. Generado con IA a partir de la plantilla
 
 | Miembro | v1.0 | v2.0 | v3.0 |
 |---------|------|------|------|
-| Javier Peña | [p. ej. repositorio de ficheros, servicio, tests, README] | | |
+| Javier Peña | [Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba y vídeo de los comandos] | | |
 | Daniel García | [p. ej. CLI, prototipo Figma, manual de estilo, vídeo] | | |
