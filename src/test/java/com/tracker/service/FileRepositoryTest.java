@@ -47,4 +47,51 @@ class FileRepositoryTest {
                 () -> new FileCandidaturaRepository(fichero).findAll());
         assertTrue(error.getMessage().contains("Línea 2"));
     }
+
+    /** Comprueba que una línea incompleta informa del número de línea y los campos. */
+    @Test
+    void lineaConPocosCamposLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("incompleto.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA + "\n1;Dev;Indra\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2 incorrecta: se esperaban 7 campos y hay 3", error.getMessage());
+    }
+
+    /** Comprueba que un estado desconocido se rechaza indicando la línea afectada. */
+    @Test
+    void lineaConEstadoInvalidoLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("estado-invalido.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;Indra;desconocido;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: Estado no válido: 'desconocido'. Valores permitidos: "
+                + "pendiente, entrevista, rechazado, aceptado", error.getMessage());
+    }
+
+    /** Comprueba que el identificador debe ser numérico. */
+    @Test
+    void lineaConIdNoNumericoLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("id-invalido.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\nabc;Dev;Indra;pendiente;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: el id 'abc' no es un número", error.getMessage());
+    }
+
+    /** Comprueba un fichero existente de cero bytes, distinto del fichero inexistente. */
+    @Test
+    void ficheroVacioDevuelveListaVacia(@TempDir Path directorio) throws IOException {
+        Path fichero = Files.createFile(directorio.resolve("vacio.txt"));
+
+        assertTrue(new FileCandidaturaRepository(fichero).findAll().isEmpty());
+    }
 }
