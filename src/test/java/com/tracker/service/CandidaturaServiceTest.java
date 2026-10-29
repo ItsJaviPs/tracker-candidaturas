@@ -163,4 +163,38 @@ class CandidaturaServiceTest {
     void listarConCriterioDeOrdenInvalidoLanzaExcepcion() {
         assertThrows(TrackerException.class, () -> servicio.listar(null, null, "color"));
     }
+
+    /** Comprueba que una fecha imposible se rechaza sin guardar datos. */
+    @Test
+    void anadirConDiaImposibleLanzaExcepcionYNoGuarda() {
+        when(repositorio.findAll()).thenReturn(datosBase());
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> servicio.anadir("QA", "Indra", "pendiente", "31/02/2026", null, null));
+
+        assertEquals("Fecha no válida: '31/02/2026'. Usa el formato dd/MM/yyyy", error.getMessage());
+        verify(repositorio, never()).saveAll(anyList());
+    }
+
+    /** Comprueba que el 29 de febrero solo se admite en un año bisiesto. */
+    @Test
+    void anadirConFebreroNoBisiestoLanzaExcepcionYNoGuarda() {
+        when(repositorio.findAll()).thenReturn(datosBase());
+
+        assertThrows(TrackerException.class,
+                () -> servicio.anadir("QA", "Indra", "pendiente", "29/02/2026", null, null));
+
+        verify(repositorio, never()).saveAll(anyList());
+    }
+
+    /** Comprueba que una fecha válida de año bisiesto se guarda sin alterarse. */
+    @Test
+    void anadirConFechaBisiestaConservaLaFecha() {
+        when(repositorio.findAll()).thenReturn(datosBase());
+
+        Candidatura creada = servicio.anadir("QA", "Indra", "pendiente", "29/02/2024", null, null);
+
+        assertEquals(LocalDate.of(2024, 2, 29), creada.fechaPostulacion());
+        verify(repositorio).saveAll(anyList());
+    }
 }

@@ -49,10 +49,12 @@ pruebas o `mvn clean package` para limpiar, compilar, probar y generar el JAR.
 En IntelliJ: ventana **Maven** → **Execute Maven Goal** → `mvn clean package`.
 Antes de cada commit se comprueba que aparece **BUILD SUCCESS**.
 
-La suite contiene 36 pruebas con JUnit 5: 10 de `CommandLine` (argumentos y errores),
+La suite contiene 42 pruebas con JUnit 5: 10 de `CommandLine` (argumentos y errores),
 6 de `CommandRunner` (listar vacío y con filtros, añadir, ver, borrar y operación
-desconocida), 13 del servicio con Mockito y 7 del repositorio (lectura, escritura,
+desconocida), 16 del servicio con Mockito y 10 del repositorio (lectura, escritura,
 fichero inexistente o vacío y registros con fecha, campos, estado o id incorrectos).
+Las fechas se validan estrictamente: se rechazan días imposibles y el 29 de febrero
+solo se admite en años bisiestos, tanto al añadir como al leer un fichero.
 Las pruebas de la CLI usan `@TempDir` y capturan la salida con
 `ByteArrayOutputStream`; no modifican `data/candidaturas.txt`.
 

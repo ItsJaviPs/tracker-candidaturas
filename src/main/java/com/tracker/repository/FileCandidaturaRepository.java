@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class FileCandidaturaRepository implements CandidaturaRepository {
 
     public static final String SEPARADOR = ";";
     public static final String CABECERA = "id;titulo;empresa;estado;fechaPostulacion;enlace;notas";
-    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+            .withResolverStyle(ResolverStyle.STRICT);
 
     private static final int NUM_CAMPOS = 7;
 

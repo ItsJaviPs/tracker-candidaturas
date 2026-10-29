@@ -94,4 +94,40 @@ class FileRepositoryTest {
 
         assertTrue(new FileCandidaturaRepository(fichero).findAll().isEmpty());
     }
+
+    /** Comprueba que una fecha imposible no se corrige silenciosamente al leer. */
+    @Test
+    void lineaConDiaImposibleLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("dia-imposible.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;Indra;pendiente;31/02/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: fecha '31/02/2026' no válida (formato dd/MM/yyyy)", error.getMessage());
+    }
+
+    /** Comprueba que febrero no tiene 29 días en un año no bisiesto. */
+    @Test
+    void lineaConFebreroNoBisiestoLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("no-bisiesto.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;Indra;pendiente;29/02/2026;;\n");
+
+        assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+    }
+
+    /** Comprueba la lectura y escritura de una fecha válida de año bisiesto. */
+    @Test
+    void guardarYLeerConservaFechaBisiesta(@TempDir Path directorio) {
+        FileCandidaturaRepository repositorio = new FileCandidaturaRepository(directorio.resolve("bisiesto.txt"));
+        Candidatura original = new Candidatura(1, "Dev", "Indra", Estado.PENDIENTE,
+                LocalDate.of(2024, 2, 29), "", "");
+
+        repositorio.saveAll(List.of(original));
+
+        assertEquals(List.of(original), repositorio.findAll());
+    }
 }
