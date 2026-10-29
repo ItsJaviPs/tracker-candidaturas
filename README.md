@@ -42,6 +42,29 @@ $env:TRACKER_DATA="C:\ruta\mis_datos.txt"; java -jar target\tracker-candidaturas
 
 Ejecutar los tests: `mvn test`
 
+### Pruebas
+
+Con Java 24 y Maven, desde la raíz del proyecto, ejecuta `mvn test` para lanzar las
+pruebas o `mvn clean package` para limpiar, compilar, probar y generar el JAR.
+En IntelliJ: ventana **Maven** → **Execute Maven Goal** → `mvn clean package`.
+Antes de cada commit se comprueba que aparece **BUILD SUCCESS**.
+
+La suite contiene 36 pruebas con JUnit 5: 10 de `CommandLine` (argumentos y errores),
+6 de `CommandRunner` (listar vacío y con filtros, añadir, ver, borrar y operación
+desconocida), 13 del servicio con Mockito y 7 del repositorio (lectura, escritura,
+fichero inexistente o vacío y registros con fecha, campos, estado o id incorrectos).
+Las pruebas de la CLI usan `@TempDir` y capturan la salida con
+`ByteArrayOutputStream`; no modifican `data/candidaturas.txt`.
+
+En el equipo Windows de Daniel, Mockito 5.14.2 ha necesitado una propiedad local
+`argLine` en **Settings → Build Tools → Maven → Runner → Properties**, con el valor
+`-Dnet.bytebuddy.experimental=true -javaagent:<ruta-al-jar-mockito-core-5.14.2.jar>`.
+El JAR está en el repositorio local de Maven, bajo
+`org/mockito/mockito-core/5.14.2/`. La ruta debe apuntar al JAR de cada equipo.
+También se han usado rutas cortas de Windows sin acentos para Maven y su repositorio
+local, debido a un error de codificación del lanzador de IntelliJ. Son ajustes
+locales del entorno; el `pom.xml` no se ha modificado.
+
 ### Operaciones
 
 | Comando | Descripción |
@@ -107,4 +130,4 @@ con fechas de agosto a octubre de 2026. Generado con IA a partir de la plantilla
 | Miembro | v1.0 | v2.0 | v3.0 |
 |---------|------|------|------|
 | Javier Peña | Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba, opción `--ordenar` con sus tests y capturas de la CLI, prototipo interactivo en Figma (importación de pantallas y enlaces entre ellas) | | |
-| Daniel García | [Pendiente: rellenar con las tareas realizadas, p. ej. prototipo Figma] | | |
+| Daniel García | Incorporación de 10 tests de CommandLine y 6 de CommandRunner con ficheros temporales y salida capturada; ampliación de FileRepositoryTest con 4 casos de ficheros vacíos y registros inválidos; comprobación con Maven y documentación de las pruebas, con asistencia de ChatGPT | | |
