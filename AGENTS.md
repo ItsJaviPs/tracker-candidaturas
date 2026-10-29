@@ -47,6 +47,7 @@ Este documento recoge cómo se han usado herramientas de IA generativa en el pro
 - Comprobación asistida de la compilación y de los 36 tests resultantes mediante Maven en IntelliJ, y diagnóstico de los ajustes locales necesarios para Windows y Java 24.
 - Actualización de sus contribuciones y de la sección de pruebas del README, y documentación del uso de ChatGPT en este archivo.
 - Revisión posterior asistida: validación estricta de fechas y de los siete campos del fichero, con 8 pruebas adicionales; actualización de Javadoc y aclaración de los pendientes de entrega. La suite resultante contiene 44 pruebas.
+- Separación de los borradores generados y los PDF finales mediante un directorio y nombres de salida diferentes, con asistencia de ChatGPT.
 
 ## Prompts de Daniel a ChatGPT (resumen)
 

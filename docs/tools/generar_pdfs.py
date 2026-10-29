@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Genera los PDF de la v1.0: prototipo de pantallas y manual de estilo de CandiTrack.
+"""Genera borradores PDF del prototipo y del manual de estilo de CandiTrack.
 
 Uso:  python3 generar_pdfs.py "Nombre Alumno 1" "Nombre Alumno 2" [directorio_salida]
+La salida predeterminada es docs/borradores/ y los nombres terminan en _borrador.pdf.
+Los borradores no sustituyen la exportación final de Figma ni el manual entregable.
 Requiere: reportlab
 """
 import sys
@@ -13,7 +15,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
 NOMBRES = sys.argv[1:3] if len(sys.argv) >= 3 else ["[Nombre Alumno 1]", "[Nombre Alumno 2]"]
-SALIDA = Path(sys.argv[3]) if len(sys.argv) >= 4 else Path(__file__).resolve().parent.parent
+SALIDA = Path(sys.argv[3]) if len(sys.argv) >= 4 else Path(__file__).resolve().parent.parent / "borradores"
 EQUIPO = " · ".join(NOMBRES)
 
 import os
@@ -938,6 +940,6 @@ def pdf_manual(ruta):
 
 if __name__ == "__main__":
     SALIDA.mkdir(parents=True, exist_ok=True)
-    pdf_prototipo(SALIDA / "CandiTrack_Prototipo_v1.0.pdf")
-    pdf_manual(SALIDA / "CandiTrack_Manual_de_Estilo_v1.0.pdf")
-    print("PDF generados en", SALIDA)
+    pdf_prototipo(SALIDA / "CandiTrack_Prototipo_v1.0_borrador.pdf")
+    pdf_manual(SALIDA / "CandiTrack_Manual_de_Estilo_v1.0_borrador.pdf")
+    print("Borradores PDF generados en", SALIDA)

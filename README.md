@@ -132,6 +132,12 @@ en el enlace del prototipo: el PDF no acredita que todos los botones estén cone
 El código Java de v1.0 implementa la CLI; las pantallas de empresas, entrevistas,
 estadísticas y asistente anticipan las siguientes versiones.
 
+`docs/tools/generar_pdfs.py` es una herramienta auxiliar para generar borradores,
+no la exportación final de Figma. Requiere Python, ReportLab y las fuentes DejaVu.
+Por defecto escribe en `docs/borradores/`, una carpeta excluida de Git, y añade
+`_borrador` a los nombres de ambos PDF, incluso si se indica otro directorio.
+Los PDF finales de `docs/` se mantienen separados y no se sustituyen al ejecutarla.
+
 ## Comprobaciones de entrega
 
 - Revisar las diferencias entre `main` y el tag `v1.0` con el equipo antes de entregar:
