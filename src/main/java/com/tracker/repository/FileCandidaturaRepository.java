@@ -99,6 +99,12 @@ public class FileCandidaturaRepository implements CandidaturaRepository {
                     + " campos y hay " + campos.length);
         }
         try {
+            if (campos[1].isBlank()) {
+                throw new TrackerException("el título es obligatorio");
+            }
+            if (campos[2].isBlank()) {
+                throw new TrackerException("la empresa es obligatoria");
+            }
             return new Candidatura(
                     Integer.parseInt(campos[0].trim()),
                     campos[1].trim(),
