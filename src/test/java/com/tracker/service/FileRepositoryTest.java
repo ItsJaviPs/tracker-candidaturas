@@ -20,6 +20,58 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /** Comprueba la persistencia y los errores del formato mediante ficheros temporales. */
 class FileRepositoryTest {
 
+    /** Rechaza un título sin contenido e identifica la línea del CSV. */
+    @Test
+    void lineaConTituloVacioLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("titulo-vacio.csv");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;;Indra;pendiente;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: el título es obligatorio", error.getMessage());
+    }
+
+    /** Los espacios tampoco cuentan como título. */
+    @Test
+    void lineaConTituloEnBlancoLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("titulo-blanco.csv");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;   ;Indra;pendiente;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: el título es obligatorio", error.getMessage());
+    }
+
+    /** Rechaza una empresa sin contenido e identifica la línea del CSV. */
+    @Test
+    void lineaConEmpresaVaciaLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("empresa-vacia.csv");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;;pendiente;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: la empresa es obligatoria", error.getMessage());
+    }
+
+    /** Los espacios tampoco cuentan como empresa. */
+    @Test
+    void lineaConEmpresaEnBlancoLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("empresa-blanca.csv");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;   ;pendiente;14/10/2026;;\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2: la empresa es obligatoria", error.getMessage());
+    }
+
     /** Comprueba que se puede empezar a trabajar sin un fichero de datos previo. */
     @Test
     void ficheroInexistenteDevuelveListaVacia(@TempDir Path directorio) {
