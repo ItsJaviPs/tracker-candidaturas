@@ -12,6 +12,7 @@ Este proyecto se ha desarrollado con ayuda de un asistente de IA (Claude). Se do
 1. Generación del CSV de datos: plantilla del enunciado (15 registros, ≥4 empresas, ≥3 por estado, últimos 3 meses).
 2. Generación del esqueleto de la CLI, el repositorio de ficheros y el servicio.
 3. Generación del prototipo de pantallas y del manual de estilo (PDF).
+4. Generación de las pantallas del prototipo como SVG (1280x800) con Claude, a partir del manual de estilo (generador en docs/tools/generar_svgs.py). Javier las importó a Figma, comprobó el resultado, creó los enlaces del prototipo interactivo, la portada y exportó el PDF.
 
 ## Revisión humana
 Todo el código y los documentos generados han sido revisados, probados y adaptados por el equipo.

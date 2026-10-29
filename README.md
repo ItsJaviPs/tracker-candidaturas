@@ -9,7 +9,7 @@ Proyecto integrador del 1.er trimestre (Acceso a Datos + Desarrollo de Interface
 
 | Tag  | Contenido                                                           | Estado     |
 |------|---------------------------------------------------------------------|------------|
-| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | En curso   |
+| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | Entregada en la fila de v1.0  |
 | v2.0 | JDBC + JavaFX (Scene Builder)                                       | Pendiente  |
 | v3.0 | Hibernate + JavaFX avanzado + Ollama4j                              | Pendiente  |
 
