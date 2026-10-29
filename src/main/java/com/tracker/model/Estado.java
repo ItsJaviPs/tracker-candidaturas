@@ -41,6 +41,7 @@ public enum Estado {
         return name().toLowerCase(Locale.ROOT);
     }
 
+    /** Construye la lista de estados que se muestra en los mensajes de error. */
     private static String valoresPermitidos() {
         return Arrays.stream(values()).map(Estado::etiqueta).collect(Collectors.joining(", "));
     }

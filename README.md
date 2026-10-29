@@ -9,7 +9,7 @@ Proyecto integrador del 1.er trimestre (Acceso a Datos + Desarrollo de Interface
 
 | Tag  | Contenido                                                           | Estado     |
 |------|---------------------------------------------------------------------|------------|
-| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | Entregada en la fila de v1.0  |
+| v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | Implementada; revisión final y entrega por confirmar |
 | v2.0 | JDBC + JavaFX (Scene Builder)                                       | Pendiente  |
 | v3.0 | Hibernate + JavaFX avanzado + Ollama4j                              | Pendiente  |
 
@@ -39,8 +39,6 @@ TRACKER_DATA=/ruta/mis_datos.txt java -jar target/tracker-candidaturas-1.0.jar -
 # Windows (PowerShell)
 $env:TRACKER_DATA="C:\ruta\mis_datos.txt"; java -jar target\tracker-candidaturas-1.0.jar -listar
 ```
-
-Ejecutar los tests: `mvn test`
 
 ### Pruebas
 
@@ -129,9 +127,25 @@ con fechas de agosto a octubre de 2026. Generado con IA a partir de la plantilla
 - Pantallas del prototipo: [`docs/CandiTrack_Prototipo_v1.0.pdf`](docs/CandiTrack_Prototipo_v1.0.pdf)
 - Manual de estilo: [`docs/CandiTrack_Manual_de_Estilo_v1.0.pdf`](docs/CandiTrack_Manual_de_Estilo_v1.0.pdf)
 
+El PDF de pantallas es la exportación final de Figma. La navegación debe comprobarse
+en el enlace del prototipo: el PDF no acredita que todos los botones estén conectados.
+El código Java de v1.0 implementa la CLI; las pantallas de empresas, entrevistas,
+estadísticas y asistente anticipan las siguientes versiones.
+
+## Comprobaciones de entrega
+
+- Revisar las diferencias entre `main` y el tag `v1.0` con el equipo antes de entregar:
+  los commits posteriores al tag no quedan incluidos automáticamente en él.
+- Confirmar la navegación y el acceso de solo lectura al prototipo, y revisar los
+  documentos y enlaces desde otra sesión.
+- Grabar un vídeo MP4 de 5–10 minutos, con participación de ambos miembros,
+  mostrando la CLI y Figma funcionando. Su grabación y entrega están por confirmar.
+- Cada miembro debe aportar al menos 5 commits sustanciales repartidos en al menos
+  2 entregas; el número de commits de v1.0 no completa por sí solo ese requisito.
+
 ## Contribuciones
 
 | Miembro | v1.0 | v2.0 | v3.0 |
 |---------|------|------|------|
 | Javier Peña | Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba, opción `--ordenar` con sus tests y capturas de la CLI, prototipo interactivo en Figma (importación de pantallas y enlaces entre ellas) | | |
-| Daniel García | Incorporación de 10 tests de CommandLine y 6 de CommandRunner con ficheros temporales y salida capturada; ampliación de FileRepositoryTest con 4 casos de ficheros vacíos y registros inválidos; comprobación con Maven y documentación de las pruebas, con asistencia de ChatGPT | | |
+| Daniel García | Incorporación de 10 tests de CommandLine y 6 de CommandRunner con ficheros temporales y salida capturada; ampliación de las pruebas de servicio y repositorio para fechas imposibles, años bisiestos y registros de siete campos; validación estricta de fechas y campos; comprobación con Maven y documentación de las pruebas y la entrega, con asistencia de ChatGPT | | |

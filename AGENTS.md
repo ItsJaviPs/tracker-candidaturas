@@ -22,7 +22,7 @@ Este documento recoge cómo se han usado herramientas de IA generativa en el pro
 2. **Código base:** generación de la CLI, el repositorio de ficheros, el servicio y los tests iniciales a partir de los requisitos de la v1.0.
 3. **Documentación y diseño:** borrador del README, del manual de estilo y de una maqueta inicial de las pantallas, en PDF.
 4. **Mejora `--ordenar`:** opción de ordenación del listado (`id`, `fecha`, `empresa`, `titulo`), con sus tests.
-5. **Pantallas del prototipo:** generador de las pantallas en SVG (`docs/tools/generar_svgs.py`) a partir del manual de estilo, para importarlas en Figma.
+5. **Pantallas del prototipo:** uso de un generador de pantallas SVG a partir del manual de estilo para importarlas en Figma. La documentación original lo identificaba como `docs/tools/generar_svgs.py`; ese archivo no está incluido en este repositorio y su ubicación queda por confirmar con Javier.
 6. **Tutoría:** guía paso a paso para usar Git y GitHub Desktop, compilar con Maven en IntelliJ, y construir y enlazar el prototipo en Figma.
 ## Qué generó la IA
 
@@ -46,6 +46,7 @@ Este documento recoge cómo se han usado herramientas de IA generativa en el pro
 - Ampliación de `FileRepositoryTest` con 4 pruebas: pocos campos, estado inválido, id no numérico y fichero vacío.
 - Comprobación asistida de la compilación y de los 36 tests resultantes mediante Maven en IntelliJ, y diagnóstico de los ajustes locales necesarios para Windows y Java 24.
 - Actualización de sus contribuciones y de la sección de pruebas del README, y documentación del uso de ChatGPT en este archivo.
+- Revisión posterior asistida: validación estricta de fechas y de los siete campos del fichero, con 8 pruebas adicionales; actualización de Javadoc y aclaración de los pendientes de entrega. La suite resultante contiene 44 pruebas.
 
 ## Prompts de Daniel a ChatGPT (resumen)
 
@@ -55,11 +56,14 @@ Este documento recoge cómo se han usado herramientas de IA generativa en el pro
 4. Crear tests de `CommandRunner` con servicio y repositorio reales, directorio temporal y captura de salida, para listar, filtrar, añadir, ver, borrar y rechazar una operación desconocida.
 5. Ampliar los tests del repositorio sin duplicarlos y documentar las aportaciones reales, las pruebas y el uso de IA en README y AGENTS.
 6. Realizar las acciones en el ordenador y continuar sin detenerse en cada paso, manteniendo un commit por tarea y ejecutando `clean package` desde Maven en IntelliJ antes de cada commit.
+7. Revisar el proyecto contra el enunciado y corregir las fechas imposibles, los campos sobrantes y la documentación, manteniendo los commits de la revisión en local y sin modificar ramas ni tags. Preparar la demostración y señalar las verificaciones humanas pendientes.
 
 ChatGPT no solo proporcionó explicaciones: también generó y escribió los tests y los
 cambios de documentación, y manejó IntelliJ y GitHub Desktop. Durante la preparación
 se ajustaron rutas locales de Maven en Windows y la ejecución de Mockito con Java 24;
-el `pom.xml` y el código de producción no se modificaron.
+en esa preparación no se modificó el `pom.xml` ni el código de producción.
+En la revisión posterior sí se corrigió el código de producción relacionado con
+las fechas y el número de campos, con pruebas de regresión. El `pom.xml` se mantiene.
 
 ## Revisión
 

@@ -20,6 +20,10 @@ public class CommandRunner {
     private final CandidaturaService servicio;
     private final PrintStream salida;
 
+    /**
+     * @param servicio lógica de negocio de las candidaturas
+     * @param salida destino de los mensajes, que puede capturarse en las pruebas
+     */
     public CommandRunner(CandidaturaService servicio, PrintStream salida) {
         this.servicio = servicio;
         this.salida = salida;
@@ -61,6 +65,7 @@ public class CommandRunner {
                 """;
     }
 
+    /** Muestra las candidaturas que cumplen los filtros y el orden solicitados. */
     private void listar(CommandLine linea) {
         List<Candidatura> resultado = servicio.listar(linea.opcion("estado"), linea.opcion("empresa"),
                 linea.opcion("ordenar"));
@@ -76,6 +81,7 @@ public class CommandRunner {
         salida.println(resultado.size() + " candidatura(s).");
     }
 
+    /** Solicita el alta al servicio y muestra el identificador asignado. */
     private void anadir(CommandLine linea) {
         Candidatura creada = servicio.anadir(
                 linea.opcion("titulo"), linea.opcion("empresa"), linea.opcion("estado"),
@@ -83,6 +89,7 @@ public class CommandRunner {
         salida.println("Candidatura añadida con id " + creada.id() + ".");
     }
 
+    /** Muestra todos los campos de la candidatura indicada. */
     private void ver(CommandLine linea) {
         Candidatura c = servicio.ver(parsearId(linea.posicionalObligatorio("id")));
         salida.println("ID:          " + c.id());
@@ -94,12 +101,14 @@ public class CommandRunner {
         salida.println("Notas:       " + vacioComoGuion(c.notas()));
     }
 
+    /** Solicita el borrado y muestra qué candidatura se ha eliminado. */
     private void borrar(CommandLine linea) {
         Candidatura borrada = servicio.borrar(parsearId(linea.posicionalObligatorio("id")));
         salida.println("Candidatura " + borrada.id() + " ('" + borrada.titulo() + "' en "
                 + borrada.empresa() + ") eliminada.");
     }
 
+    /** Comprueba el fichero de origen e informa de las candidaturas importadas. */
     private void importar(CommandLine linea) {
         Path ruta = Path.of(linea.posicionalObligatorio("fichero.csv"));
         if (!Files.isRegularFile(ruta)) {
@@ -109,6 +118,7 @@ public class CommandRunner {
         salida.println(total + " candidatura(s) importada(s) desde '" + ruta + "'.");
     }
 
+    /** Convierte el identificador a entero o informa de una entrada no numérica. */
     private int parsearId(String texto) {
         try {
             return Integer.parseInt(texto.trim());
@@ -117,10 +127,12 @@ public class CommandRunner {
         }
     }
 
+    /** Limita el texto al ancho de la columna, indicando el recorte con puntos suspensivos. */
     private String recortar(String texto, int maximo) {
         return texto.length() <= maximo ? texto : texto.substring(0, maximo - 1) + "…";
     }
 
+    /** Representa los campos opcionales vacíos mediante un guion. */
     private String vacioComoGuion(String texto) {
         return texto.isBlank() ? "-" : texto;
     }

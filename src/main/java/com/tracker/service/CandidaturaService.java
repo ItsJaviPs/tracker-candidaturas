@@ -21,6 +21,9 @@ public class CandidaturaService {
 
     private final CandidaturaRepository repositorio;
 
+    /**
+     * @param repositorio almacenamiento utilizado para leer y guardar las candidaturas
+     */
     public CandidaturaService(CandidaturaRepository repositorio) {
         this.repositorio = repositorio;
     }
@@ -60,6 +63,7 @@ public class CandidaturaService {
                 .toList();
     }
 
+    /** Selecciona el orden solicitado y usa el id para resolver los empates. */
     private Comparator<Candidatura> comparadorPara(String ordenarPor) {
         Comparator<Candidatura> porId = Comparator.comparingInt(Candidatura::id);
         if (ordenarPor == null) {
@@ -168,10 +172,12 @@ public class CandidaturaService {
         return importadas.size();
     }
 
+    /** Devuelve uno más que el mayor id existente, o uno si la lista está vacía. */
     private int siguienteId(List<Candidatura> candidaturas) {
         return candidaturas.stream().mapToInt(Candidatura::id).max().orElse(0) + 1;
     }
 
+    /** Valida la fecha introducida o utiliza la fecha actual si no se indica. */
     private LocalDate parsearFecha(String fecha) {
         if (fecha == null || fecha.isBlank()) {
             return LocalDate.now();
@@ -183,6 +189,7 @@ public class CandidaturaService {
         }
     }
 
+    /** Rechaza un dato obligatorio nulo, vacío o compuesto solo por espacios. */
     private void exigirTexto(String valor, String nombre) {
         if (valor == null || valor.isBlank()) {
             throw new TrackerException("Falta el argumento obligatorio --" + nombre);

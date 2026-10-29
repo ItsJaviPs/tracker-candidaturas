@@ -17,9 +17,15 @@ public final class Main {
     private static final String VARIABLE_FICHERO = "TRACKER_DATA";
     private static final String FICHERO_POR_DEFECTO = "data/candidaturas.txt";
 
+    /** Evita crear instancias de la clase de entrada. */
     private Main() {
     }
 
+    /**
+     * Configura el fichero de datos y ejecuta una operación de la CLI.
+     *
+     * @param args operación y argumentos recibidos al iniciar el programa
+     */
     public static void main(String[] args) {
         PrintStream salida = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         PrintStream errores = new PrintStream(System.err, true, StandardCharsets.UTF_8);

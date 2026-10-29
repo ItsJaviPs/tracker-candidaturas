@@ -17,13 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/** Comprueba la persistencia y los errores del formato mediante ficheros temporales. */
 class FileRepositoryTest {
 
+    /** Comprueba que se puede empezar a trabajar sin un fichero de datos previo. */
     @Test
     void ficheroInexistenteDevuelveListaVacia(@TempDir Path directorio) {
         assertTrue(new FileCandidaturaRepository(directorio.resolve("no-existe.txt")).findAll().isEmpty());
     }
 
+    /** Comprueba la lectura tras guardar y la limpieza de separadores en el título. */
     @Test
     void guardarYLeerConservaLosDatos(@TempDir Path directorio) {
         FileCandidaturaRepository repositorio = new FileCandidaturaRepository(directorio.resolve("datos.txt"));
@@ -38,6 +41,7 @@ class FileRepositoryTest {
         assertEquals(Estado.PENDIENTE, leida.estado());
     }
 
+    /** Comprueba que el error de fecha identifica la línea del fichero. */
     @Test
     void lineaConFechaInvalidaIndicaElNumeroDeLinea(@TempDir Path directorio) throws IOException {
         Path fichero = directorio.resolve("malo.txt");

@@ -26,6 +26,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/** Comprueba las reglas del servicio aislando su repositorio mediante Mockito. */
 @ExtendWith(MockitoExtension.class)
 class CandidaturaServiceTest {
 
@@ -34,15 +35,18 @@ class CandidaturaServiceTest {
 
     private CandidaturaService servicio;
 
+    /** Prepara el servicio con el repositorio simulado de cada prueba. */
     @BeforeEach
     void preparar() {
         servicio = new CandidaturaService(repositorio);
     }
 
+    /** Crea una candidatura de prueba con título y fecha conocidos. */
     private Candidatura candidatura(int id, String empresa, Estado estado) {
         return new Candidatura(id, "Dev " + id, empresa, estado, LocalDate.of(2026, 10, 1), "", "");
     }
 
+    /** Proporciona una lista modificable con distintas empresas y estados. */
     private List<Candidatura> datosBase() {
         return new ArrayList<>(List.of(
                 candidatura(1, "Indra", Estado.PENDIENTE),
@@ -50,6 +54,7 @@ class CandidaturaServiceTest {
                 candidatura(3, "Indra", Estado.ENTREVISTA)));
     }
 
+    /** Comprueba el orden por defecto aunque el repositorio devuelva datos desordenados. */
     @Test
     void listarSinFiltrosDevuelveTodasOrdenadasPorId() {
         when(repositorio.findAll()).thenReturn(new ArrayList<>(List.of(
@@ -60,6 +65,7 @@ class CandidaturaServiceTest {
         assertEquals(List.of(1, 3), resultado.stream().map(Candidatura::id).toList());
     }
 
+    /** Comprueba que deben cumplirse ambos filtros sin distinguir mayúsculas. */
     @Test
     void listarFiltraPorEstadoYEmpresaCombinados() {
         when(repositorio.findAll()).thenReturn(datosBase());
@@ -70,11 +76,13 @@ class CandidaturaServiceTest {
         assertEquals(3, resultado.get(0).id());
     }
 
+    /** Comprueba el rechazo de un estado desconocido antes de consultar los datos. */
     @Test
     void listarConEstadoInvalidoLanzaExcepcion() {
         assertThrows(TrackerException.class, () -> servicio.listar("raro", null));
     }
 
+    /** Comprueba el identificador, la fecha y la lista enviada al guardar un alta. */
     @Test
     void anadirAsignaSiguienteIdYGuarda() {
         when(repositorio.findAll()).thenReturn(datosBase());
@@ -88,12 +96,14 @@ class CandidaturaServiceTest {
         assertEquals(4, captor.getValue().size());
     }
 
+    /** Comprueba que un título en blanco impide guardar la candidatura. */
     @Test
     void anadirSinTituloLanzaExcepcionYNoGuarda() {
         assertThrows(TrackerException.class, () -> servicio.anadir(" ", "Indra", "pendiente", null, null, null));
         verify(repositorio, never()).saveAll(anyList());
     }
 
+    /** Comprueba el rechazo de una fecha escrita con otro formato. */
     @Test
     void anadirConFechaInvalidaLanzaExcepcion() {
         when(repositorio.findAll()).thenReturn(datosBase());
@@ -101,18 +111,21 @@ class CandidaturaServiceTest {
                 () -> servicio.anadir("QA", "Minsait", "pendiente", "2026-10-05", null, null));
     }
 
+    /** Comprueba la búsqueda por id entre varias candidaturas. */
     @Test
     void verDevuelveLaCandidaturaIndicada() {
         when(repositorio.findAll()).thenReturn(datosBase());
         assertEquals("Accenture", servicio.ver(2).empresa());
     }
 
+    /** Comprueba el error de una consulta cuyo id no existe. */
     @Test
     void verConIdInexistenteLanzaExcepcion() {
         when(repositorio.findAll()).thenReturn(datosBase());
         assertThrows(TrackerException.class, () -> servicio.ver(99));
     }
 
+    /** Comprueba que la candidatura borrada no se incluye al guardar la lista. */
     @Test
     void borrarEliminaLaCandidaturaYGuarda() {
         when(repositorio.findAll()).thenReturn(datosBase());
@@ -124,6 +137,7 @@ class CandidaturaServiceTest {
         assertTrue(captor.getValue().stream().noneMatch(c -> c.id() == 2));
     }
 
+    /** Comprueba que un borrado fallido no modifica el almacenamiento. */
     @Test
     void borrarConIdInexistenteNoGuarda() {
         when(repositorio.findAll()).thenReturn(datosBase());
@@ -131,6 +145,7 @@ class CandidaturaServiceTest {
         verify(repositorio, never()).saveAll(anyList());
     }
 
+    /** Comprueba que la importación conserva los registros sin repetir identificadores. */
     @Test
     void importarReasignaIdsDuplicados(@TempDir Path directorio) {
         FileCandidaturaRepository origen = new FileCandidaturaRepository(directorio.resolve("origen.csv"));
@@ -148,6 +163,7 @@ class CandidaturaServiceTest {
         assertTrue(ids.contains(10));
     }
 
+    /** Comprueba el orden descendente por fecha de postulación. */
     @Test
     void listarOrdenaPorFechaMasRecientePrimero() {
         when(repositorio.findAll()).thenReturn(new ArrayList<>(List.of(
@@ -159,6 +175,7 @@ class CandidaturaServiceTest {
         assertEquals(List.of(2, 1), resultado.stream().map(Candidatura::id).toList());
     }
 
+    /** Comprueba el rechazo de un criterio de orden desconocido. */
     @Test
     void listarConCriterioDeOrdenInvalidoLanzaExcepcion() {
         assertThrows(TrackerException.class, () -> servicio.listar(null, null, "color"));

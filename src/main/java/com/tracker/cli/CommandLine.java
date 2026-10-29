@@ -15,6 +15,7 @@ public final class CommandLine {
     private final String valorPosicional;
     private final Map<String, String> opciones;
 
+    /** Conserva los argumentos interpretados por {@link #parsear(String[])}. */
     private CommandLine(String operacion, String valorPosicional, Map<String, String> opciones) {
         this.operacion = operacion;
         this.valorPosicional = valorPosicional;
@@ -54,6 +55,9 @@ public final class CommandLine {
         return new CommandLine(operacion, posicional, opciones);
     }
 
+    /**
+     * @return operación normalizada, sin guion inicial y en minúsculas
+     */
     public String operacion() {
         return operacion;
     }

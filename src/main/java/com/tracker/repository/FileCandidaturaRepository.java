@@ -91,6 +91,7 @@ public class FileCandidaturaRepository implements CandidaturaRepository {
         }
     }
 
+    /** Interpreta un registro de siete campos e identifica la línea si contiene errores. */
     private Candidatura parsearLinea(String linea, int numeroLinea) {
         String[] campos = linea.split(SEPARADOR, -1);
         if (campos.length != NUM_CAMPOS) {
@@ -116,6 +117,7 @@ public class FileCandidaturaRepository implements CandidaturaRepository {
         }
     }
 
+    /** Convierte una candidatura en un registro, limpiando los campos de texto. */
     private String formatearLinea(Candidatura c) {
         return String.join(SEPARADOR,
                 String.valueOf(c.id()),
