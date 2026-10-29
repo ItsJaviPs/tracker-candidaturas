@@ -68,6 +68,26 @@ las fechas y el número de campos, con pruebas de regresión. El `pom.xml` se ma
 
 ## Revisión
 
+### Validaciones locales solicitadas por Daniel (29/10/2026)
+
+- Petición: corregir la importación de títulos y empresas vacíos y el rechazo de
+  opciones desconocidas, con cambios sencillos, pruebas y explicación para clase;
+  sin subir a GitHub ni cambiar la etiqueta `v1.0`.
+- Codex añadió dos comprobaciones con `isBlank()` al leer los registros y una lista
+  de opciones permitidas por operación en `CommandLine`, sin nuevas dependencias.
+- Se añadieron 10 pruebas: cuatro de campos vacíos o con espacios, cuatro de opciones
+  y compatibilidad, y dos de integración que comprueban que los rechazos no modifican
+  el fichero de destino. La suite pasa de 44 a 54 pruebas. La validación de esta
+  revisión se realiza con Java 25 y Maven incluidos en IntelliJ, compilando para Java 24.
+- Los cambios se prepararon en local para que Daniel los revise y comprenda antes de presentarlos.
+- Adaptación didáctica posterior: Daniel confirma que conoce interfaces, excepciones,
+  streams y lambdas. Se mantienen esos recursos y se separa la validación de opciones
+  en el método `validarOpcion` para facilitar su lectura y explicación. Se conserva
+  la documentación del uso de IA y se vuelve a comprobar la suite y la CLI.
+- Daniel autoriza posteriormente subir estos cambios a `main`, conservando intacta
+  la etiqueta `v1.0`. La comprobación previa termina con 54 pruebas correctas y 13
+  comprobaciones de consola sobre archivos temporales.
+
 El código y los documentos de la fase original asistida por Claude se han revisado,
 ejecutado y adaptado por el equipo. Los cambios están en el historial de commits con
 su autor. Las nuevas aportaciones asistidas por ChatGPT se han comprobado mediante
