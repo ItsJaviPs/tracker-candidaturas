@@ -5,6 +5,7 @@ import com.tracker.exception.TrackerException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Argumentos de línea de comandos interpretados: operación, valor posicional y opciones {@code --clave valor}.
@@ -28,7 +29,7 @@ public final class CommandLine {
      *
      * @param args argumentos recibidos
      * @return argumentos interpretados
-     * @throws TrackerException si no hay operación o una opción no tiene valor
+     * @throws TrackerException si no hay operación, una opción no está permitida o no tiene valor
      */
     public static CommandLine parsear(String[] args) {
         if (args == null || args.length == 0) {
@@ -42,6 +43,7 @@ public final class CommandLine {
             String argumento = args[i];
             if (argumento.startsWith("--")) {
                 String clave = argumento.substring(2).toLowerCase(Locale.ROOT);
+                validarOpcion(operacion, clave);
                 if (i + 1 >= args.length || args[i + 1].startsWith("--")) {
                     throw new TrackerException("La opción --" + clave + " necesita un valor.");
                 }
@@ -53,6 +55,18 @@ public final class CommandLine {
             }
         }
         return new CommandLine(operacion, posicional, opciones);
+    }
+
+    /** Comprueba que la opción pertenece al comando antes de leer su valor. */
+    private static void validarOpcion(String operacion, String clave) {
+        Set<String> opcionesPermitidas = switch (operacion) {
+            case "listar" -> Set.of("estado", "empresa", "ordenar");
+            case "anadir", "añadir" -> Set.of("titulo", "empresa", "estado", "fecha", "enlace", "notas");
+            default -> Set.of();
+        };
+        if (!opcionesPermitidas.contains(clave)) {
+            throw new TrackerException("La opción --" + clave + " no está permitida para '" + operacion + "'.");
+        }
     }
 
     /**
