@@ -93,7 +93,7 @@ public class FileCandidaturaRepository implements CandidaturaRepository {
 
     private Candidatura parsearLinea(String linea, int numeroLinea) {
         String[] campos = linea.split(SEPARADOR, -1);
-        if (campos.length < NUM_CAMPOS) {
+        if (campos.length != NUM_CAMPOS) {
             throw new TrackerException("Línea " + numeroLinea + " incorrecta: se esperaban " + NUM_CAMPOS
                     + " campos y hay " + campos.length);
         }

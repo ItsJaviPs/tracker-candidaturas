@@ -130,4 +130,30 @@ class FileRepositoryTest {
 
         assertEquals(List.of(original), repositorio.findAll());
     }
+
+    /** Comprueba que los campos sobrantes no se descartan silenciosamente. */
+    @Test
+    void lineaConCamposSobrantesLanzaExcepcion(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("sobrantes.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;Indra;pendiente;14/10/2026;;;sobrante\n");
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> new FileCandidaturaRepository(fichero).findAll());
+
+        assertEquals("Línea 2 incorrecta: se esperaban 7 campos y hay 8", error.getMessage());
+    }
+
+    /** Comprueba que los campos opcionales vacíos al final cuentan como campos. */
+    @Test
+    void lineaConOpcionalesVaciosConservaLosSieteCampos(@TempDir Path directorio) throws IOException {
+        Path fichero = directorio.resolve("opcionales-vacios.txt");
+        Files.writeString(fichero, FileCandidaturaRepository.CABECERA
+                + "\n1;Dev;Indra;pendiente;14/10/2026;;\n");
+
+        List<Candidatura> resultado = new FileCandidaturaRepository(fichero).findAll();
+
+        assertEquals(List.of(new Candidatura(1, "Dev", "Indra", Estado.PENDIENTE,
+                LocalDate.of(2026, 10, 14), "", "")), resultado);
+    }
 }
