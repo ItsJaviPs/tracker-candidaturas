@@ -12,7 +12,9 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
@@ -128,6 +130,45 @@ class CommandRunnerTest {
         assertEquals("Operación desconocida: 'inventada'.", error.getMessage());
         assertEquals("", textoSalida());
         assertEquals(List.of(original), repositorio.findAll());
+    }
+
+    /** Un CSV con una fila válida y otra inválida no debe importarse parcialmente. */
+    @Test
+    void importarConDatosObligatoriosVaciosNoModificaElDestino() throws IOException {
+        Candidatura original = candidatura(1, "Original", "Indra", Estado.PENDIENTE);
+        repositorio.saveAll(List.of(original));
+        Path destino = directorio.resolve("candidaturas.txt");
+        String contenidoOriginal = Files.readString(destino);
+        Path origen = directorio.resolve("invalido.csv");
+
+        for (String filaInvalida : new String[]{
+                "3;;Indra;pendiente;14/10/2026;;",
+                "3;Dev;   ;pendiente;14/10/2026;;"}) {
+            Files.writeString(origen, FileCandidaturaRepository.CABECERA
+                    + "\n2;Válida;Indra;pendiente;14/10/2026;;\n" + filaInvalida + "\n");
+
+            TrackerException error = assertThrows(TrackerException.class,
+                    () -> ejecutor.ejecutar(new String[]{"-importar", origen.toString()}));
+
+            assertTrue(error.getMessage().startsWith("Línea 3:"));
+            assertEquals(contenidoOriginal, Files.readString(destino));
+            assertEquals("", textoSalida());
+        }
+    }
+
+    /** Una opción mal escrita impide ejecutar el borrado y conserva el fichero. */
+    @Test
+    void opcionDesconocidaImpideBorrar() throws IOException {
+        repositorio.saveAll(List.of(candidatura(1, "Original", "Indra", Estado.PENDIENTE)));
+        Path destino = directorio.resolve("candidaturas.txt");
+        String contenidoOriginal = Files.readString(destino);
+
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> ejecutor.ejecutar(new String[]{"-borrar", "1", "--estdo", "entrevista"}));
+
+        assertEquals("La opción --estdo no está permitida para 'borrar'.", error.getMessage());
+        assertEquals(contenidoOriginal, Files.readString(destino));
+        assertEquals("", textoSalida());
     }
 
     /** Devuelve la salida capturada usando la misma codificación que el ejecutor. */
