@@ -12,6 +12,52 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class CommandLineTest {
 
+    /** Rechaza una errata en lugar de ignorar el filtro. */
+    @Test
+    void opcionDesconocidaLanzaExcepcion() {
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> CommandLine.parsear(new String[]{"-listar", "--estdo", "entrevista"}));
+
+        assertEquals("La opción --estdo no está permitida para 'listar'.", error.getMessage());
+    }
+
+    /** Una opción conocida también debe corresponder a la operación solicitada. */
+    @Test
+    void opcionDeOtraOperacionLanzaExcepcion() {
+        TrackerException error = assertThrows(TrackerException.class,
+                () -> CommandLine.parsear(new String[]{"-borrar", "1", "--estado", "pendiente"}));
+
+        assertEquals("La opción --estado no está permitida para 'borrar'.", error.getMessage());
+    }
+
+    /** Conserva todos los argumentos de alta y los dos alias de la operación. */
+    @Test
+    void anadirConAmbosAliasAdmiteTodasSusOpciones() {
+        for (String operacion : new String[]{"-añadir", "-anadir"}) {
+            CommandLine linea = CommandLine.parsear(new String[]{operacion,
+                    "--titulo", "Dev Java", "--empresa", "Indra", "--estado", "pendiente",
+                    "--fecha", "29/10/2026", "--enlace", "https://example.com", "--notas", "Mi nota"});
+
+            assertEquals("Dev Java", linea.opcion("titulo"));
+            assertEquals("Indra", linea.opcion("empresa"));
+            assertEquals("pendiente", linea.opcion("estado"));
+            assertEquals("29/10/2026", linea.opcion("fecha"));
+            assertEquals("https://example.com", linea.opcion("enlace"));
+            assertEquals("Mi nota", linea.opcion("notas"));
+        }
+    }
+
+    /** Conserva la ordenación y la normalización de las opciones en mayúsculas. */
+    @Test
+    void listarAdmiteFiltrosYOrdenEnMayusculas() {
+        CommandLine linea = CommandLine.parsear(new String[]{"-LISTAR",
+                "--ESTADO", "entrevista", "--EMPRESA", "Indra", "--ORDENAR", "fecha"});
+
+        assertEquals("entrevista", linea.opcion("estado"));
+        assertEquals("Indra", linea.opcion("empresa"));
+        assertEquals("fecha", linea.opcion("ordenar"));
+    }
+
     /** Comprueba que se elimina el guion inicial de la operación. */
     @Test
     void operacionConGuionInicialSeInterpreta() {
