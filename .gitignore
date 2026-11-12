@@ -4,3 +4,4 @@ target/
 .vscode/
 data/candidaturas.txt
 docs/borradores/
+config.properties
