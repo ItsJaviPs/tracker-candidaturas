@@ -3,12 +3,12 @@ package com.tracker.controller;
 import com.tracker.exception.TrackerException;
 import com.tracker.model.Estado;
 import com.tracker.model.Oferta;
-import com.tracker.repository.FileCandidaturaRepository;
 import com.tracker.repository.FiltroOfertas;
 import com.tracker.service.ResultadoImportacion;
 import com.tracker.ui.Alertas;
-import com.tracker.ui.ConversorEstado;
 import com.tracker.ui.Contexto;
+import com.tracker.ui.ConversorEstado;
+import com.tracker.ui.Formatos;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -26,17 +26,13 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.Locale;
 
 /**
  * Pantalla del listado de candidaturas: filtros, tabla ordenable, cambio de estado en la propia tabla,
- * importación de CSV y borrado.
+ * acceso al detalle y al formulario, importación de CSV y borrado.
  */
 public class ListadoController {
-
-    private static final NumberFormat FORMATO_SALARIO = NumberFormat.getNumberInstance(Locale.of("es", "ES"));
 
     private final Contexto contexto;
     private final ObservableList<Oferta> datos = FXCollections.observableArrayList();
@@ -97,21 +93,20 @@ public class ListadoController {
             @Override
             protected void updateItem(LocalDate fecha, boolean vacia) {
                 super.updateItem(fecha, vacia);
-                setText(vacia || fecha == null ? "" : fecha.format(FileCandidaturaRepository.FORMATO_FECHA));
+                setText(vacia ? "" : Formatos.fecha(fecha));
             }
         });
         colSalario.setCellFactory(columna -> new TableCell<Oferta, Double>() {
             @Override
             protected void updateItem(Double salario, boolean vacio) {
                 super.updateItem(salario, vacio);
-                setText(vacio || salario == null ? "" : FORMATO_SALARIO.format(salario) + " €");
+                setText(vacio ? "" : Formatos.salario(salario));
             }
         });
 
         SortedList<Oferta> ordenadas = new SortedList<>(datos);
         ordenadas.comparatorProperty().bind(tabla.comparatorProperty());
         tabla.setItems(ordenadas);
-        tabla.setEditable(true);
 
         Platform.runLater(this::buscar);
     }
@@ -120,11 +115,11 @@ public class ListadoController {
     private void buscar() {
         try {
             FiltroOfertas filtro = new FiltroOfertas(
-                    textoOnulo(campoBuscar.getText()),
+                    Formatos.textoOnulo(campoBuscar.getText()),
                     comboEstado.getValue(),
-                    textoOnulo(campoEmpresa.getText()),
-                    numero(campoSalarioMin.getText(), "salario mínimo"),
-                    numero(campoSalarioMax.getText(), "salario máximo"),
+                    Formatos.textoOnulo(campoEmpresa.getText()),
+                    Formatos.numero(campoSalarioMin.getText(), "salario mínimo"),
+                    Formatos.numero(campoSalarioMax.getText(), "salario máximo"),
                     fechaDesde.getValue(),
                     fechaHasta.getValue());
             datos.setAll(contexto.ofertas().buscar(filtro));
@@ -144,6 +139,27 @@ public class ListadoController {
         fechaDesde.setValue(null);
         fechaHasta.setValue(null);
         buscar();
+    }
+
+    @FXML
+    private void nueva() {
+        contexto.navegador().mostrarFormularioOferta(null);
+    }
+
+    @FXML
+    private void ver() {
+        Oferta oferta = seleccionada();
+        if (oferta != null) {
+            contexto.navegador().mostrarDetalle(oferta.id());
+        }
+    }
+
+    @FXML
+    private void editar() {
+        Oferta oferta = seleccionada();
+        if (oferta != null) {
+            contexto.navegador().mostrarFormularioOferta(oferta);
+        }
     }
 
     @FXML
@@ -167,21 +183,28 @@ public class ListadoController {
 
     @FXML
     private void eliminar() {
-        Oferta seleccionada = tabla.getSelectionModel().getSelectedItem();
-        if (seleccionada == null) {
-            Alertas.informacion("Eliminar candidatura", "Selecciona primero una candidatura de la tabla.");
+        Oferta oferta = seleccionada();
+        if (oferta == null) {
             return;
         }
-        if (!Alertas.confirmar("¿Eliminar '" + seleccionada.titulo() + "' de " + seleccionada.empresa().nombre()
+        if (!Alertas.confirmar("¿Eliminar '" + oferta.titulo() + "' de " + oferta.empresa().nombre()
                 + "? También se borrarán sus entrevistas.")) {
             return;
         }
         try {
-            contexto.ofertas().eliminar(seleccionada.id());
+            contexto.ofertas().eliminar(oferta.id());
             buscar();
         } catch (TrackerException e) {
             Alertas.error(e.getMessage());
         }
+    }
+
+    private Oferta seleccionada() {
+        Oferta oferta = tabla.getSelectionModel().getSelectedItem();
+        if (oferta == null) {
+            Alertas.informacion("Selecciona una candidatura", "Selecciona primero una candidatura de la tabla.");
+        }
+        return oferta;
     }
 
     private void cambiarEstado(Oferta oferta, Estado nuevo) {
@@ -191,21 +214,6 @@ public class ListadoController {
         } catch (TrackerException e) {
             Alertas.error(e.getMessage());
             tabla.refresh();
-        }
-    }
-
-    private String textoOnulo(String texto) {
-        return texto == null || texto.isBlank() ? null : texto.trim();
-    }
-
-    private Double numero(String texto, String campo) {
-        if (texto == null || texto.isBlank()) {
-            return null;
-        }
-        try {
-            return Double.valueOf(texto.trim().replace(',', '.'));
-        } catch (NumberFormatException e) {
-            throw new TrackerException("El " + campo + " debe ser un número.");
         }
     }
 }

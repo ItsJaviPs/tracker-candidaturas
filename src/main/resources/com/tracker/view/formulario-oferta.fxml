@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tracker.controller.FormularioOfertaController">
+   <content>
+      <VBox maxWidth="900.0" spacing="16.0">
+         <padding>
+            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+         </padding>
+         <children>
+            <Label fx:id="etiquetaTitulo" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Nueva candidatura" />
+            <GridPane hgap="16.0" vgap="12.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" />
+                  <ColumnConstraints hgrow="ALWAYS" />
+               </columnConstraints>
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Título del puesto *" />
+                        <TextField fx:id="campoTitulo" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Empresa *" />
+                        <ComboBox fx:id="comboEmpresa" maxWidth="1.7976931348623157E308" promptText="Seleccionar empresa…" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Estado *" />
+                        <ComboBox fx:id="comboEstado" maxWidth="1.7976931348623157E308" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Fecha de postulación *" />
+                        <DatePicker fx:id="fechaPostulacion" maxWidth="1.7976931348623157E308" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Salario (€)" />
+                        <TextField fx:id="campoSalario" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Enlace" />
+                        <TextField fx:id="campoEnlace" promptText="https://…" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+            <VBox spacing="4.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Descripción" />
+                  <TextArea fx:id="campoDescripcion" prefRowCount="4" wrapText="true" />
+               </children>
+            </VBox>
+            <VBox spacing="4.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Notas" />
+                  <TextArea fx:id="campoNotas" prefRowCount="3" wrapText="true" />
+               </children>
+            </VBox>
+            <Label fx:id="mensajeError" style="-fx-text-fill: #C62828; -fx-font-weight: bold;" wrapText="true" />
+            <HBox spacing="12.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#guardar" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar" />
+                  <Button mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                  <Label text="* Campo obligatorio" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

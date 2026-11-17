@@ -18,49 +18,55 @@
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
    </padding>
    <children>
-      <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Candidaturas" />
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Candidaturas" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#nueva" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Nueva candidatura" />
+         </children>
+      </HBox>
       <FlowPane hgap="12.0" vgap="8.0">
          <children>
             <VBox spacing="4.0">
                <children>
                   <Label text="Buscar" />
-                  <TextField fx:id="campoBuscar" onAction="#buscar" prefWidth="220.0" promptText="Título o empresa…" />
+                  <TextField fx:id="campoBuscar" onAction="#buscar" prefWidth="200.0" promptText="Título o empresa…" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Estado" />
-                  <ComboBox fx:id="comboEstado" prefWidth="140.0" promptText="Todos" />
+                  <ComboBox fx:id="comboEstado" prefWidth="130.0" promptText="Todos" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Empresa" />
-                  <TextField fx:id="campoEmpresa" onAction="#buscar" prefWidth="150.0" promptText="Todas" />
+                  <TextField fx:id="campoEmpresa" onAction="#buscar" prefWidth="140.0" promptText="Todas" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Salario mínimo (€)" />
-                  <TextField fx:id="campoSalarioMin" onAction="#buscar" prefWidth="120.0" />
+                  <TextField fx:id="campoSalarioMin" onAction="#buscar" prefWidth="110.0" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Salario máximo (€)" />
-                  <TextField fx:id="campoSalarioMax" onAction="#buscar" prefWidth="120.0" />
+                  <TextField fx:id="campoSalarioMax" onAction="#buscar" prefWidth="110.0" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Desde" />
-                  <DatePicker fx:id="fechaDesde" prefWidth="140.0" />
+                  <DatePicker fx:id="fechaDesde" prefWidth="130.0" />
                </children>
             </VBox>
             <VBox spacing="4.0">
                <children>
                   <Label text="Hasta" />
-                  <DatePicker fx:id="fechaHasta" prefWidth="140.0" />
+                  <DatePicker fx:id="fechaHasta" prefWidth="130.0" />
                </children>
             </VBox>
          </children>
@@ -70,8 +76,10 @@
             <Button defaultButton="true" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
             <Button mnemonicParsing="false" onAction="#limpiar" text="Limpiar" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#importarCsv" text="Importar CSV…" />
+            <Button mnemonicParsing="false" onAction="#ver" text="Ver" />
+            <Button mnemonicParsing="false" onAction="#editar" text="Editar" />
             <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
+            <Button mnemonicParsing="false" onAction="#importarCsv" text="Importar CSV…" />
          </children>
       </HBox>
       <TableView fx:id="tabla" editable="true" VBox.vgrow="ALWAYS">
