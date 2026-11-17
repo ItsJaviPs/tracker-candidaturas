@@ -19,7 +19,8 @@
                   <Insets bottom="16.0" left="12.0" />
                </VBox.margin>
             </Label>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#irAListado" text="Candidaturas" />
+            <Button fx:id="botonCandidaturas" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#irAListado" text="Candidaturas" />
+            <Button fx:id="botonEmpresas" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#irAEmpresas" text="Empresas" />
          </children>
       </VBox>
    </left>

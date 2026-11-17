@@ -25,4 +25,9 @@ public interface Navegador {
      * @param oferta oferta a editar, o {@code null} para crear una nueva
      */
     void mostrarFormularioOferta(Oferta oferta);
+
+    /**
+     * Muestra la gestión de empresas (listado y formulario).
+     */
+    void mostrarEmpresas();
 }
