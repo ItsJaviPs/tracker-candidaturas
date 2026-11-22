@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 /**
  * Punto de entrada de la aplicación JavaFX (v2.0).
  */
@@ -16,6 +18,7 @@ public class App extends Application {
 
     private static final double ANCHO = 1280;
     private static final double ALTO = 800;
+    private static final String HOJA_DE_ESTILOS = "/com/tracker/css/styles.css";
 
     @Override
     public void start(Stage ventana) {
@@ -29,6 +32,10 @@ public class App extends Application {
         }
 
         Scene escena = new Scene(principal.raiz(), ANCHO, ALTO);
+        URL estilos = App.class.getResource(HOJA_DE_ESTILOS);
+        if (estilos != null) {
+            escena.getStylesheets().add(estilos.toExternalForm());
+        }
         ventana.setTitle("CandiTrack - Tracker de Candidaturas");
         ventana.setMinWidth(1000);
         ventana.setMinHeight(650);

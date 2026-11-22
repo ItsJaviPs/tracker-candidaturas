@@ -1,0 +1,219 @@
+/* CandiTrack - Hoja de estilos (v2.0), según el Manual de estilo v1.0 */
+
+.root {
+    /* Paleta */
+    -color-primary: #1F4E8C;
+    -color-primary-dark: #163A6A;
+    -color-primary-light: #E3ECF7;
+    -color-secondary: #0B7A6B;
+    -color-bg: #F4F6FA;
+    -color-surface: #FFFFFF;
+    -color-text: #1B2430;
+    -color-muted: #5B6778;
+    -color-border: #D5DBE5;
+    -color-danger: #C62828;
+    -color-success: #166534;
+
+    /* Tipografía y base */
+    -fx-font-family: "DejaVu Sans", "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-text;
+
+    /* Selección y foco de los controles estándar */
+    -fx-accent: -color-primary;
+    -fx-focus-color: -color-primary;
+    -fx-faint-focus-color: transparent;
+    -fx-selection-bar: -color-primary-light;
+    -fx-selection-bar-non-focused: #EEF3FA;
+    -fx-selection-bar-text: -color-text;
+}
+
+/* Textos */
+.titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.subtitulo {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-primary-dark;
+}
+
+.etiqueta-campo {
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-text;
+}
+
+.texto-atenuado {
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 12px;
+}
+
+.mensaje-error {
+    -fx-text-fill: -color-danger;
+    -fx-font-weight: bold;
+}
+
+/* Botones */
+.boton-primario,
+.boton-secundario,
+.boton-peligro {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.boton-primario {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+}
+
+.boton-primario:hover {
+    -fx-background-color: -color-primary-dark;
+}
+
+.boton-primario:default {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+}
+
+.boton-secundario {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-primary;
+    -fx-text-fill: -color-primary;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: -color-primary-light;
+}
+
+.boton-peligro {
+    -fx-background-color: -color-danger;
+    -fx-text-fill: white;
+}
+
+.boton-peligro:hover {
+    -fx-background-color: #9F1F1F;
+}
+
+.boton-primario:focused,
+.boton-secundario:focused,
+.boton-peligro:focused {
+    -fx-border-color: #E8590C;
+    -fx-border-width: 2;
+}
+
+.boton-primario:disabled,
+.boton-secundario:disabled,
+.boton-peligro:disabled {
+    -fx-background-color: #E5E8EE;
+    -fx-text-fill: #6B7280;
+    -fx-border-color: transparent;
+}
+
+/* Tarjetas */
+.tarjeta {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 16;
+}
+
+/* Menú lateral */
+.menu-lateral {
+    -fx-background-color: -color-primary-dark;
+}
+
+.logo {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Botones del menú lateral */
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.nav-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.nav-item:focused {
+    -fx-border-color: #E8590C;
+    -fx-border-radius: 6;
+    -fx-border-width: 2;
+}
+
+.nav-item-activo,
+.nav-item-activo:hover {
+    -fx-background-color: -color-primary;
+    -fx-font-weight: bold;
+}
+
+/* Formularios */
+.text-field,
+.text-area,
+.combo-box-base,
+.date-picker {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: -color-border;
+    -fx-background-color: -color-surface;
+}
+
+.text-field:focused,
+.text-area:focused,
+.combo-box-base:focused,
+.date-picker:focused {
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+}
+
+.text-area .content {
+    -fx-background-color: -color-surface;
+}
+
+/* Tablas */
+.table-view {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-border;
+}
+
+.table-view .column-header-background,
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: -color-primary-light;
+}
+
+.table-view .column-header {
+    -fx-border-color: transparent transparent -color-border transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -color-primary-dark;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: -color-text;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F8FAFC;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: -color-primary-light;
+}

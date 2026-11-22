@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tracker.controller.DetalleController">
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tracker.controller.DetalleController">
    <content>
       <VBox spacing="16.0">
          <padding>
@@ -25,59 +25,59 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="12.0">
                <children>
-                  <Label fx:id="etiquetaTitulo" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Título" />
+                  <Label fx:id="etiquetaTitulo" styleClass="titulo" text="Título" />
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#volver" text="← Volver" />
-                  <Button mnemonicParsing="false" onAction="#editar" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;" text="Editar" />
+                  <Button styleClass="boton-secundario" mnemonicParsing="false" onAction="#volver" text="← Volver" />
+                  <Button mnemonicParsing="false" onAction="#editar" styleClass="boton-primario" text="Editar" />
                </children>
             </HBox>
             <HBox spacing="16.0">
                <children>
-                  <VBox spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D5DBE5; -fx-border-radius: 8; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                  <VBox spacing="8.0" styleClass="tarjeta" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
                      <children>
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Datos de la oferta" />
+                        <Label styleClass="subtitulo" text="Datos de la oferta" />
                         <GridPane hgap="12.0" vgap="8.0">
                            <columnConstraints>
                               <ColumnConstraints minWidth="150.0" />
                               <ColumnConstraints hgrow="ALWAYS" />
                            </columnConstraints>
                            <children>
-                              <Label style="-fx-font-weight: bold;" text="Estado" />
+                              <Label styleClass="etiqueta-campo" text="Estado" />
                               <ComboBox fx:id="comboEstado" prefWidth="160.0" GridPane.columnIndex="1" />
-                              <Label style="-fx-font-weight: bold;" text="Fecha de postulación" GridPane.rowIndex="1" />
+                              <Label styleClass="etiqueta-campo" text="Fecha de postulación" GridPane.rowIndex="1" />
                               <Label fx:id="etiquetaFecha" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label style="-fx-font-weight: bold;" text="Salario" GridPane.rowIndex="2" />
+                              <Label styleClass="etiqueta-campo" text="Salario" GridPane.rowIndex="2" />
                               <Label fx:id="etiquetaSalario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label style="-fx-font-weight: bold;" text="Enlace" GridPane.rowIndex="3" />
+                              <Label styleClass="etiqueta-campo" text="Enlace" GridPane.rowIndex="3" />
                               <Label fx:id="etiquetaEnlace" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label style="-fx-font-weight: bold;" text="Descripción" GridPane.rowIndex="4" />
+                              <Label styleClass="etiqueta-campo" text="Descripción" GridPane.rowIndex="4" />
                               <Label fx:id="etiquetaDescripcion" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label style="-fx-font-weight: bold;" text="Notas" GridPane.rowIndex="5" />
+                              <Label styleClass="etiqueta-campo" text="Notas" GridPane.rowIndex="5" />
                               <Label fx:id="etiquetaNotas" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
                      </children>
                   </VBox>
-                  <VBox spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D5DBE5; -fx-border-radius: 8; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                  <VBox spacing="8.0" styleClass="tarjeta" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
                      <children>
-                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Empresa" />
+                        <Label styleClass="subtitulo" text="Empresa" />
                         <GridPane hgap="12.0" vgap="8.0">
                            <columnConstraints>
                               <ColumnConstraints minWidth="90.0" />
                               <ColumnConstraints hgrow="ALWAYS" />
                            </columnConstraints>
                            <children>
-                              <Label style="-fx-font-weight: bold;" text="Nombre" />
+                              <Label styleClass="etiqueta-campo" text="Nombre" />
                               <Label fx:id="etiquetaEmpresa" GridPane.columnIndex="1" />
-                              <Label style="-fx-font-weight: bold;" text="Sector" GridPane.rowIndex="1" />
+                              <Label styleClass="etiqueta-campo" text="Sector" GridPane.rowIndex="1" />
                               <Label fx:id="etiquetaSector" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label style="-fx-font-weight: bold;" text="Web" GridPane.rowIndex="2" />
+                              <Label styleClass="etiqueta-campo" text="Web" GridPane.rowIndex="2" />
                               <Label fx:id="etiquetaWeb" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
@@ -123,9 +123,9 @@
                         </GridPane>
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#guardarEntrevista" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar entrevista" />
-                              <Button mnemonicParsing="false" onAction="#nuevaEntrevista" text="Nueva" />
-                              <Button mnemonicParsing="false" onAction="#eliminarEntrevista" style="-fx-background-color: #C62828; -fx-text-fill: white; -fx-font-weight: bold;" text="Eliminar" />
+                              <Button mnemonicParsing="false" onAction="#guardarEntrevista" styleClass="boton-primario" text="Guardar entrevista" />
+                              <Button styleClass="boton-secundario" mnemonicParsing="false" onAction="#nuevaEntrevista" text="Nueva" />
+                              <Button mnemonicParsing="false" onAction="#eliminarEntrevista" styleClass="boton-peligro" text="Eliminar" />
                               <Label fx:id="mensajeEntrevista" wrapText="true" />
                            </children>
                         </HBox>

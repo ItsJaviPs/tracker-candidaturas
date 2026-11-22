@@ -7,6 +7,7 @@ import com.tracker.ui.Contexto;
 import com.tracker.ui.Navegador;
 import com.tracker.ui.Vistas;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
@@ -15,9 +16,7 @@ import javafx.scene.layout.StackPane;
  */
 public class PrincipalController implements Navegador {
 
-    private static final String ESTILO_ACTIVO =
-            "-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;";
-    private static final String ESTILO_NORMAL = "-fx-background-color: transparent; -fx-text-fill: white;";
+    private static final String CLASE_ACTIVO = "nav-item-activo";
 
     private final Contexto contexto;
 
@@ -82,9 +81,16 @@ public class PrincipalController implements Navegador {
         mostrar(cargada.raiz(), botonEmpresas);
     }
 
-    private void mostrar(javafx.scene.Parent pantalla, Button activo) {
+    private void mostrar(Parent pantalla, Button activo) {
         contenido.getChildren().setAll(pantalla);
-        botonCandidaturas.setStyle(botonCandidaturas == activo ? ESTILO_ACTIVO : ESTILO_NORMAL);
-        botonEmpresas.setStyle(botonEmpresas == activo ? ESTILO_ACTIVO : ESTILO_NORMAL);
+        marcar(botonCandidaturas, activo);
+        marcar(botonEmpresas, activo);
+    }
+
+    private void marcar(Button boton, Button activo) {
+        boton.getStyleClass().remove(CLASE_ACTIVO);
+        if (boton == activo) {
+            boton.getStyleClass().add(CLASE_ACTIVO);
+        }
     }
 }

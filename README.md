@@ -10,25 +10,43 @@ Proyecto integrador del 1.er trimestre (Acceso a Datos + Desarrollo de Interface
 | Tag  | Contenido                                                           | Estado     |
 |------|---------------------------------------------------------------------|------------|
 | v1.0 | Persistencia en ficheros + CLI + prototipo Figma + Manual de estilo | Implementada; revisión final y entrega por confirmar |
-| v2.0 | JDBC + JavaFX (Scene Builder)                                       | Pendiente  |
+| v2.0 | JDBC (MySQL) + JavaFX (Scene Builder)                               | Implementada; revisión final y entrega por confirmar |
 | v3.0 | Hibernate + JavaFX avanzado + Ollama4j                              | Pendiente  |
 
-## Tecnologías (v1.0)
+## Tecnologías
+
+**v1.0**
 
 - Java 24 · Maven
 - Persistencia en fichero de texto plano (CSV con `;`)
 - JUnit 5 + Mockito para las pruebas unitarias
 - Figma (prototipo) · Manual de estilo en PDF
 
-*(Se ampliará con JDBC, Hibernate, JavaFX, Scene Builder y Ollama en v2.0 y v3.0.)*
+**v2.0** (se añade a lo anterior)
+
+- MySQL 8 con JDBC (`mysql-connector-j`)
+- JavaFX 24 · FXML · Scene Builder · hoja de estilos CSS
+- H2 en memoria (pruebas de los repositorios)
+
+*(Se ampliará con Hibernate y Ollama en la v3.0.)*
+
+---
+
+# Versión 1.0 — Archivos + CLI + Diseño
 
 ## Compilar y ejecutar (v1.0)
+
+Estas instrucciones corresponden a la etiqueta `v1.0` (`git checkout v1.0`), donde el proyecto genera un JAR
+ejecutable.
 
 ```bash
 mvn clean package
 java -jar target/tracker-candidaturas-1.0.jar -importar data/candidaturas.csv
 java -jar target/tracker-candidaturas-1.0.jar -listar
 ```
+
+En la rama `main` (v2.0) la interfaz principal es JavaFX, pero la consola se conserva y se puede lanzar tras
+compilar con `java -cp target/classes com.tracker.Main -listar`.
 
 El fichero de datos es `data/candidaturas.txt` (se crea al guardar). Se puede cambiar con la
 variable de entorno `TRACKER_DATA`:
@@ -47,7 +65,7 @@ pruebas o `mvn clean package` para limpiar, compilar, probar y generar el JAR.
 En IntelliJ: ventana **Maven** → **Execute Maven Goal** → `mvn clean package`.
 Antes de cada commit se comprueba que aparece **BUILD SUCCESS**.
 
-La suite contiene 54 pruebas con JUnit 5: 14 de `CommandLine` (argumentos y errores),
+La suite de la v1.0 contiene 54 pruebas con JUnit 5: 14 de `CommandLine` (argumentos y errores),
 8 de `CommandRunner` (listar vacío y con filtros, añadir, ver, borrar, operación
 desconocida y rechazos sin modificar el fichero), 16 del servicio con Mockito y 16 del repositorio (lectura, escritura,
 fichero inexistente o vacío y registros con fecha, campos, estado o id incorrectos).
@@ -106,20 +124,6 @@ Error por id inexistente:
 
 ![Error](docs/capturas/error.png)
 
-## Estructura
-
-```
-src/main/java/com/tracker
-├── Main.java                  Punto de entrada
-├── cli/                       Interpretación de argumentos y ejecución de comandos
-├── model/                     Candidatura (record) y Estado (enum)
-├── repository/                Interfaz + implementación sobre fichero de texto
-├── service/                   Lógica de negocio (filtros, orden, altas, bajas, importación)
-└── exception/                 TrackerException
-data/candidaturas.csv          Datos de prueba (15 registros)
-docs/                          Prototipo (PDF), Manual de estilo (PDF) y capturas de la CLI
-```
-
 ## Datos de prueba
 
 [`data/candidaturas.csv`](data/candidaturas.csv): 15 candidaturas, 5 empresas, entre 3 y 4 por estado,
@@ -143,7 +147,7 @@ Por defecto escribe en `docs/borradores/`, una carpeta excluida de Git, y añade
 `_borrador` a los nombres de ambos PDF, incluso si se indica otro directorio.
 Los PDF finales de `docs/` se mantienen separados y no se sustituyen al ejecutarla.
 
-## Comprobaciones de entrega
+## Comprobaciones de entrega (v1.0)
 
 - Revisar las diferencias entre `main` y el tag `v1.0` con el equipo antes de entregar:
   los commits posteriores al tag no quedan incluidos automáticamente en él.
@@ -154,9 +158,96 @@ Los PDF finales de `docs/` se mantienen separados y no se sustituyen al ejecutar
 - Cada miembro debe aportar al menos 5 commits sustanciales repartidos en al menos
   2 entregas; el número de commits de v1.0 no completa por sí solo ese requisito.
 
+---
+
+# Versión 2.0 — JDBC + JavaFX
+
+Segunda entrega: la persistencia en ficheros se sustituye por una base de datos MySQL accedida con JDBC y la
+interfaz de consola se sustituye por una aplicación gráfica JavaFX con las pantallas maquetadas en FXML
+(Scene Builder) y estilizadas con el manual de estilo de la v1.0.
+
+## Puesta en marcha
+
+1. **Requisitos:** JDK 24 y un servidor MySQL 8 en marcha.
+2. **Crear la base de datos:** ejecutar el script [`db/schema.sql`](db/schema.sql) (por ejemplo, con MySQL Workbench:
+   *File → Open SQL Script → Run*). Crea la base `canditrack` con las tablas `EMPRESA`, `OFERTA` y `ENTREVISTA`.
+3. **Configurar la conexión:** copiar [`config.properties.example`](config.properties.example) como
+   `config.properties` y rellenar la URL, el usuario y la contraseña. Este archivo no se sube al repositorio
+   (está en `.gitignore`). Alternativamente se pueden usar las variables de entorno `DB_URL`, `DB_USER` y
+   `DB_PASSWORD`, que tienen prioridad sobre el fichero.
+4. **Arrancar la aplicación:** `mvn javafx:run` (o desde IntelliJ, *Plugins → javafx → javafx:run*).
+5. **Cargar los datos de prueba:** botón **Importar CSV…** del listado y elegir
+   [`data/candidaturas.csv`](data/candidaturas.csv). Importar el mismo fichero dos veces no duplica datos.
+6. **Pruebas:** `mvn test` o `mvn clean package`. Los tests de los repositorios usan H2 en memoria y no necesitan
+   MySQL; la prueba de conexión real (`ConexionBdTest`) se omite si no hay configuración. En la última ejecución
+   la suite completa (v1.0 y v2.0) pasaba con 101 pruebas.
+
+## Funcionalidades
+
+| Historia de usuario | Implementación |
+|---|---|
+| HU-09 Listado en tabla | Pantalla *Candidaturas*: `TableView` ordenable por columna y con selección de filas |
+| HU-10 Gestión de empresas | Pantalla *Empresas*: tabla con nº de ofertas y formulario de alta, edición y baja |
+| HU-11 Entrevistas de cada oferta | Panel desplegable *Entrevistas* dentro del detalle, con formulario de alta, edición y baja |
+| HU-12 Cambiar el estado | Desplegable en la propia tabla (doble clic) y en el detalle |
+| HU-13 Filtros múltiples | Texto, estado, empresa, salario mínimo y máximo y rango de fechas, combinables |
+
+Además: formulario de alta y edición de candidaturas con validación de campos, importación del CSV inicial a la
+base de datos, borrado de candidaturas (con sus entrevistas) y mensajes de error claros en pantalla.
+
+## Requisitos de Acceso a Datos cubiertos
+
+- Esquema MySQL con claves foráneas (`OFERTA → EMPRESA`, `ENTREVISTA → OFERTA`) y `schema.sql`.
+- Configuración de la conexión externalizada (`config.properties` o variables de entorno).
+- Consultas con `JOIN` (ofertas con su empresa; entrevistas con su oferta y empresa) y `GROUP BY`
+  (nº de ofertas por empresa), siempre con `PreparedStatement`.
+- Filtros combinados con consulta construida dinámicamente (empresa + estado + salario, fecha + empresa, etc.).
+- CRUD completo de empresas y entrevistas; cambio de estado de una candidatura.
+- Transacción en la importación del CSV: crea las empresas que faltan y las ofertas en un único bloque; si algo
+  falla se hace `rollback` y no se guarda nada.
+
+## Esquema de la base de datos
+
+| Tabla | Campos principales |
+|---|---|
+| `EMPRESA` | `id`, `nombre` (único), `sector`, `web`, `fechaRegistro` |
+| `OFERTA` | `id`, `id_empresa` (FK), `titulo`, `descripcion`, `estado`, `fechaPostulacion`, `enlace`, `salario`, `notas` |
+| `ENTREVISTA` | `id`, `id_oferta` (FK, borrado en cascada), `fecha`, `tipo`, `notas`, `resultado` |
+
+## Diseño de la interfaz
+
+Las pantallas siguen el prototipo de Figma y el manual de estilo de la v1.0. Los archivos `.fxml` se maquetan y
+retocan con Scene Builder, y los estilos viven en
+[`styles.css`](src/main/resources/com/tracker/css/styles.css), donde se asignan a los componentes mediante clases
+CSS (`boton-primario`, `boton-secundario`, `boton-peligro`, `tarjeta`, `titulo`...).
+
+---
+
+## Estructura del código
+
+```
+src/main/java/com/tracker
+├── App.java                   Arranque de JavaFX (v2.0)
+├── Main.java                  Punto de entrada de la consola (v1.0)
+├── cli/                       Interpretación de argumentos y ejecución de comandos (v1.0)
+├── config/                    Lectura de la configuración y conexiones JDBC (v2.0)
+├── model/                     Candidatura (v1.0); Empresa, Oferta, Entrevista y Estado
+├── repository/                Repositorio de ficheros (v1.0) e interfaces y repositorios JDBC (v2.0)
+├── service/                   Lógica de negocio y validación
+├── controller/                Controladores JavaFX de cada pantalla (v2.0)
+├── ui/                        Navegación, carga de FXML, alertas y formatos (v2.0)
+└── exception/                 TrackerException
+src/main/resources/com/tracker
+├── view/                      Pantallas FXML (maquetadas con Scene Builder)
+└── css/styles.css             Estilos según el manual de estilo
+data/candidaturas.csv          Datos de prueba (15 registros)
+db/schema.sql                  Esquema de la base de datos
+docs/                          Prototipo (PDF), Manual de estilo (PDF) y capturas de la CLI
+```
+
 ## Contribuciones
 
 | Miembro | v1.0 | v2.0 | v3.0 |
 |---------|------|------|------|
-| Javier Peña | Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba, opción `--ordenar` con sus tests y capturas de la CLI, prototipo interactivo en Figma (importación de pantallas y enlaces entre ellas) | | |
-| Daniel García | Incorporación de 10 tests de CommandLine y 6 de CommandRunner con ficheros temporales y salida capturada; ampliación de las pruebas de servicio y repositorio para fechas imposibles, años bisiestos y registros de siete campos; validación estricta de fechas y campos; comprobación con Maven y documentación de las pruebas y la entrega, con asistencia de ChatGPT | | |
+| Javier Peña | Compilación y pruebas del código Java (CLI, servicio y repositorio), ejecución de los tests con Maven, repositorio de GitHub, datos de prueba, opción `--ordenar` con sus tests y capturas de la CLI, prototipo interactivo en Figma (importación de pantallas y enlaces entre ellas) | Configuración de MySQL y Scene Builder, integración y prueba de la capa JDBC y de las pantallas JavaFX, estilos CSS aplicados en Scene Builder (listado y empresas) y documentación de la v2.0 | |
+| Daniel García | Incorporación de 10 tests de CommandLine y 6 de CommandRunner con ficheros temporales y salida capturada; ampliación de las pruebas de servicio y repositorio para fechas imposibles, años bisiestos y registros de siete campos; validación estricta de fechas y campos; comprobación con Maven y documentación de las pruebas y la entrega, con asistencia de ChatGPT | *(pendiente de completar por Daniel)* | |

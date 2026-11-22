@@ -13,16 +13,16 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="16.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tracker.controller.ListadoController">
+<VBox spacing="16.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tracker.controller.ListadoController">
    <padding>
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
    </padding>
    <children>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Candidaturas" />
+            <Label styleClass="titulo" text="Candidaturas" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#nueva" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Nueva candidatura" />
+            <Button mnemonicParsing="false" onAction="#nueva" styleClass="boton-primario" text="+ Nueva candidatura" />
          </children>
       </HBox>
       <FlowPane hgap="12.0" vgap="8.0">
@@ -30,7 +30,7 @@
             <VBox spacing="4.0">
                <children>
                   <Label text="Buscar" />
-                  <TextField fx:id="campoBuscar" onAction="#buscar" prefWidth="200.0" promptText="Título o empresa…" />
+                  <TextField fx:id="campoBuscar" onAction="#buscar" prefWidth="200.0" promptText="Título o empresa…" styleClass="boton-primario" />
                </children>
             </VBox>
             <VBox spacing="4.0">
@@ -73,13 +73,13 @@
       </FlowPane>
       <HBox alignment="CENTER_LEFT" spacing="12.0">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
-            <Button mnemonicParsing="false" onAction="#limpiar" text="Limpiar" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#buscar" styleClass="boton-primario" text="Buscar" />
+            <Button mnemonicParsing="false" onAction="#limpiar" styleClass="boton-secundario" text="Limpiar" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#ver" text="Ver" />
-            <Button mnemonicParsing="false" onAction="#editar" text="Editar" />
-            <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
-            <Button mnemonicParsing="false" onAction="#importarCsv" text="Importar CSV…" />
+            <Button mnemonicParsing="false" onAction="#ver" styleClass="boton-secundario" text="Ver" />
+            <Button mnemonicParsing="false" onAction="#editar" styleClass="boton-secundario" text="Editar" />
+            <Button mnemonicParsing="false" onAction="#eliminar" styleClass="boton-peligro" text="Eliminar" />
+            <Button mnemonicParsing="false" onAction="#importarCsv" styleClass="boton-secundario" text="Importar CSV…" />
          </children>
       </HBox>
       <TableView fx:id="tabla" editable="true" VBox.vgrow="ALWAYS">

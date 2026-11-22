@@ -1,95 +1,117 @@
 # AGENTS.md — Uso de IA generativa en CandiTrack
 
-Este documento recoge cómo se han usado herramientas de IA generativa en el proyecto, con qué instrucciones y qué parte del trabajo corresponde a cada miembro del equipo. Se incluye para que el trabajo asistido pueda evaluarse con transparencia.
+Este documento recoge cómo se han usado herramientas de IA generativa en el proyecto, con qué instrucciones y qué
+parte del trabajo corresponde a cada miembro del equipo. Se incluye para que el trabajo asistido pueda evaluarse con
+transparencia.
 
 ## Herramientas utilizadas
 
 | Herramienta | Uso |
 |-------------|-----|
-| Claude (Anthropic) | Asistente de código y documentación, y tutor paso a paso en Git, IntelliJ y Figma |
-| ChatGPT | Tutoría de Java, JUnit y Git para Daniel; creación de tests, edición de documentación y ejecución de tareas en IntelliJ y GitHub Desktop a petición de Daniel |
+| Claude (Anthropic) | Asistente de código y documentación, y tutor paso a paso en Git, IntelliJ, MySQL, Scene Builder y Figma |
+| ChatGPT | Asistencia en las pruebas y la documentación de la v1.0 (Daniel García) |
+
+---
+
+# Versión 1.0 — Archivos + CLI + Diseño
 
 ## Instrucciones de proyecto dadas a la IA
 
 - Java 24 y Maven. En v1.0, CLI por argumentos, sin `Scanner` ni menús interactivos.
-- Arquitectura por capas: `cli` → `service` → `repository` (interfaz) → fichero de texto. La interfaz del repositorio permite sustituir los ficheros por JDBC en la v2.0.
+- Arquitectura por capas: `cli` → `service` → `repository` (interfaz) → fichero de texto. La interfaz del
+  repositorio permite sustituir los ficheros por JDBC en la v2.0.
 - Código y Javadoc en español, sin código muerto ni comentarios de depuración.
 - Pruebas unitarias con JUnit 5 y Mockito.
-- Diseño siguiendo el manual de estilo del proyecto: paleta, tipografía DejaVu y componentes definidos en `docs/CandiTrack_Manual_de_Estilo_v1.0.pdf`.
+- Diseño siguiendo el manual de estilo del proyecto: paleta, tipografía DejaVu y componentes definidos en
+  `docs/CandiTrack_Manual_de_Estilo_v1.0.pdf`.
+
 ## Prompts principales
 
-1. **Datos de prueba:** plantilla del enunciado (15 registros, al menos 4 empresas, al menos 3 candidaturas por estado, fechas de los últimos 3 meses) para generar `data/candidaturas.csv`.
-2. **Código base:** generación de la CLI, el repositorio de ficheros, el servicio y los tests iniciales a partir de los requisitos de la v1.0.
-3. **Documentación y diseño:** borrador del README, del manual de estilo y de una maqueta inicial de las pantallas, en PDF.
+1. **Datos de prueba:** plantilla del enunciado (15 registros, al menos 4 empresas, al menos 3 candidaturas por
+   estado, fechas de los últimos 3 meses) para generar `data/candidaturas.csv`.
+2. **Código base:** generación de la CLI, el repositorio de ficheros, el servicio y los tests iniciales a partir de
+   los requisitos de la v1.0.
+3. **Documentación y diseño:** borrador del README, del manual de estilo y de una maqueta inicial de las pantallas,
+   en PDF.
 4. **Mejora `--ordenar`:** opción de ordenación del listado (`id`, `fecha`, `empresa`, `titulo`), con sus tests.
-5. **Pantallas del prototipo:** uso de un generador de pantallas SVG a partir del manual de estilo para importarlas en Figma. La documentación original lo identificaba como `docs/tools/generar_svgs.py`; ese archivo no está incluido en este repositorio y su ubicación queda por confirmar con Javier.
-6. **Tutoría:** guía paso a paso para usar Git y GitHub Desktop, compilar con Maven en IntelliJ, y construir y enlazar el prototipo en Figma.
+5. **Pantallas del prototipo:** generador de las pantallas en SVG (`docs/tools/generar_svgs.py`) a partir del
+   manual de estilo, para importarlas en Figma.
+6. **Tutoría:** guía paso a paso para usar Git y GitHub Desktop, compilar con Maven en IntelliJ, y construir y
+   enlazar el prototipo en Figma.
+
 ## Qué generó la IA
 
-- La estructura inicial del código Java de la CLI (paquetes `cli`, `service`, `repository`, `model`, `exception`) y los tests iniciales.
+- La estructura inicial del código Java de la CLI (paquetes `cli`, `service`, `repository`, `model`, `exception`)
+  y los tests iniciales.
 - El CSV de datos de prueba.
 - Los borradores del README, del manual de estilo y de la maqueta de pantallas.
 - El generador de SVG de las pantallas y el código de la opción `--ordenar`.
-## Aportaciones del equipo
+
+## Aportaciones del equipo en la v1.0
 
 **Javier Peña**
-- Creación y gestión del repositorio público, colaboradores, commits y tag `v1.0` con GitHub Desktop.
+- Creación y gestión del repositorio público, colaboradores, commits y etiquetas con GitHub Desktop.
 - Configuración del entorno (IntelliJ, JDK, Maven), compilación con `mvn clean package` y ejecución de los tests.
-- Pruebas manuales de todos los comandos de la CLI, corrección de la codificación de la consola en Windows y generación de las capturas de ejemplo.
+- Pruebas manuales de todos los comandos de la CLI, corrección de la codificación de la consola en Windows y
+  generación de las capturas de ejemplo.
 - Integración y revisión de la opción `--ordenar` y de su documentación en el README.
-- Prototipo en Figma: importación y revisión de las pantallas, portada, enlaces del prototipo interactivo y publicación con acceso de solo lectura.
-- Exportación del PDF de pantallas, ordenado con ayuda del asistente, y actualización de la documentación del repositorio.
+- Prototipo en Figma: importación y revisión de las pantallas, portada, enlaces del prototipo interactivo y
+  publicación con acceso de solo lectura.
+- Exportación del PDF de pantallas, ordenado con ayuda del asistente, y actualización de la documentación.
 
 **Daniel García**
+- Incorporación de 10 tests de `CommandLine` y 6 de `CommandRunner` con ficheros temporales y salida capturada.
+- Ampliación de las pruebas de servicio y repositorio para fechas imposibles, años bisiestos y registros de siete
+  campos, y validación estricta de fechas y campos.
+- Comprobación con Maven y documentación de las pruebas y de la entrega, con asistencia de ChatGPT.
 
-- Incorporación, con asistencia de ChatGPT, de 10 pruebas de `CommandLine` y 6 de `CommandRunner`, estas últimas con un repositorio real sobre `@TempDir` y captura de salida.
-- Ampliación de `FileRepositoryTest` con 4 pruebas: pocos campos, estado inválido, id no numérico y fichero vacío.
-- Comprobación asistida de la compilación y de los 36 tests resultantes mediante Maven en IntelliJ, y diagnóstico de los ajustes locales necesarios para Windows y Java 24.
-- Actualización de sus contribuciones y de la sección de pruebas del README, y documentación del uso de ChatGPT en este archivo.
-- Revisión posterior asistida: validación estricta de fechas y de los siete campos del fichero, con 8 pruebas adicionales; actualización de Javadoc y aclaración de los pendientes de entrega. La suite resultante contiene 44 pruebas.
-- Separación de los borradores generados y los PDF finales mediante un directorio y nombres de salida diferentes, con asistencia de ChatGPT.
+---
 
-## Prompts de Daniel a ChatGPT (resumen)
+# Versión 2.0 — JDBC + JavaFX
 
-1. Actuar como tutor paciente de Java y Git, leer los archivos existentes y explicar cada paso para poder defender el trabajo en un vídeo, sin cambiar paquetes, clases ni el `pom.xml`.
-2. Preparar el entorno, actualizar primero el repositorio con GitHub Desktop y comprobar la compilación y los tests.
-3. Crear tests de `CommandLine` para operaciones con y sin guion, opciones con y sin valor, argumentos inesperados y ausencia de operación.
-4. Crear tests de `CommandRunner` con servicio y repositorio reales, directorio temporal y captura de salida, para listar, filtrar, añadir, ver, borrar y rechazar una operación desconocida.
-5. Ampliar los tests del repositorio sin duplicarlos y documentar las aportaciones reales, las pruebas y el uso de IA en README y AGENTS.
-6. Realizar las acciones en el ordenador y continuar sin detenerse en cada paso, manteniendo un commit por tarea y ejecutando `clean package` desde Maven en IntelliJ antes de cada commit.
-7. Revisar el proyecto contra el enunciado y corregir las fechas imposibles, los campos sobrantes y la documentación, manteniendo los commits de la revisión en local y sin modificar ramas ni tags. Preparar la demostración y señalar las verificaciones humanas pendientes.
+## Instrucciones de proyecto dadas a la IA
 
-ChatGPT no solo proporcionó explicaciones: también generó y escribió los tests y los
-cambios de documentación, y manejó IntelliJ y GitHub Desktop. Durante la preparación
-se ajustaron rutas locales de Maven en Windows y la ejecución de Mockito con Java 24;
-en esa preparación no se modificó el `pom.xml` ni el código de producción.
-En la revisión posterior sí se corrigió el código de producción relacionado con
-las fechas y el número de campos, con pruebas de regresión. El `pom.xml` se mantiene.
+- Java 24, Maven, MySQL 8 con JDBC; JavaFX con FXML y Scene Builder.
+- Arquitectura por capas: `controller` → `service` → `repository` (interfaces con implementaciones JDBC) → MySQL.
+- Consultas siempre con `PreparedStatement`, recursos cerrados con try-with-resources y transacciones en las
+  operaciones que afectan a varias tablas.
+- Configuración de la conexión externalizada; la contraseña nunca se sube al repositorio.
+- Código y Javadoc en español, sin código muerto ni comentarios de depuración.
+- Estilos según el manual de estilo de la v1.0.
+
+## Prompts principales
+
+1. **Esquema:** base de datos MySQL (`db/schema.sql`) a partir del modelo de datos del enunciado.
+2. **Conexión y modelo:** configuración de la conexión (`DbConfig`, `ConexionBd`) y entidades `Empresa`, `Oferta`
+   y `Entrevista`.
+3. **Repositorios JDBC** con `JOIN`, filtros combinados, cambio de estado e importación transaccional del CSV.
+4. **Servicios** con validación de campos, y pruebas unitarias (Mockito) y de integración (H2 en memoria).
+5. **Pantallas JavaFX:** ventana principal, listado, detalle con entrevistas, formulario de candidatura y empresas.
+6. **Estilos:** hoja de estilos CSS con las clases del manual de estilo.
+7. **Tutoría paso a paso** para instalar y configurar MySQL, ejecutar el proyecto en IntelliJ y trabajar en
+   Scene Builder.
+
+## Qué generó la IA
+
+- La capa de acceso a datos (configuración, repositorios JDBC, servicios y validaciones) y sus tests.
+- Los controladores JavaFX, la primera versión de los archivos FXML y la hoja de estilos `styles.css`.
+
+## Aportaciones del equipo en la v2.0
+
+**Javier Peña**
+- Instalación y configuración de MySQL y Scene Builder; creación de la base de datos con `schema.sql` y de la
+  configuración local sin subir la contraseña al repositorio.
+- Integración del código en el proyecto, ejecución de las pruebas (101 en verde en la última ejecución) y prueba
+  manual de las pantallas contra MySQL, incluida la importación del CSV.
+- Trabajo en Scene Builder: asignación de clases CSS del manual de estilo a los componentes del listado,
+  corrección de errores de diseño (el botón *Buscar* y el campo de búsqueda) y ajustes en la pantalla de empresas
+  (textos del formulario y ancho de la tarjeta).
+- Gestión del repositorio y de la documentación.
+
+**Daniel García**
+- *(Pendiente de completar por Daniel con las tareas realizadas en la v2.0.)*
 
 ## Revisión
 
-### Validaciones locales solicitadas por Daniel (29/10/2026)
-
-- Petición: corregir la importación de títulos y empresas vacíos y el rechazo de
-  opciones desconocidas, con cambios sencillos, pruebas y explicación para clase;
-  sin subir a GitHub ni cambiar la etiqueta `v1.0`.
-- Codex añadió dos comprobaciones con `isBlank()` al leer los registros y una lista
-  de opciones permitidas por operación en `CommandLine`, sin nuevas dependencias.
-- Se añadieron 10 pruebas: cuatro de campos vacíos o con espacios, cuatro de opciones
-  y compatibilidad, y dos de integración que comprueban que los rechazos no modifican
-  el fichero de destino. La suite pasa de 44 a 54 pruebas. La validación de esta
-  revisión se realiza con Java 25 y Maven incluidos en IntelliJ, compilando para Java 24.
-- Los cambios se prepararon en local para que Daniel los revise y comprenda antes de presentarlos.
-- Adaptación didáctica posterior: Daniel confirma que conoce interfaces, excepciones,
-  streams y lambdas. Se mantienen esos recursos y se separa la validación de opciones
-  en el método `validarOpcion` para facilitar su lectura y explicación. Se conserva
-  la documentación del uso de IA y se vuelve a comprobar la suite y la CLI.
-- Daniel autoriza posteriormente subir estos cambios a `main`, conservando intacta
-  la etiqueta `v1.0`. La comprobación previa termina con 54 pruebas correctas y 13
-  comprobaciones de consola sobre archivos temporales.
-
-El código y los documentos de la fase original asistida por Claude se han revisado,
-ejecutado y adaptado por el equipo. Los cambios están en el historial de commits con
-su autor. Las nuevas aportaciones asistidas por ChatGPT se han comprobado mediante
-pruebas automáticas; su revisión humana por Daniel queda pendiente. Daniel debe
-revisarlas y comprenderlas antes de presentarlas y explicarlas en su vídeo.
+Todo el código y los documentos generados con IA se han revisado, ejecutado y adaptado por el equipo antes de
+incorporarse al repositorio. Los cambios y su autoría están en el historial de commits.
