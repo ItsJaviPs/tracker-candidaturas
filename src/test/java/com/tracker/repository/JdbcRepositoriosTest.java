@@ -158,6 +158,23 @@ class JdbcRepositoriosTest {
     }
 
     @Test
+    void combinaEmpresaEstadoYSalarioEnLaMismaBusqueda() {
+        Empresa indra = crearEmpresa("Indra");
+        Empresa accenture = crearEmpresa("Accenture");
+        LocalDate fecha = LocalDate.of(2026, 10, 1);
+        crearOferta(indra, "Dev Java", Estado.ENTREVISTA, fecha, 30000.0);
+        crearOferta(indra, "QA", Estado.ENTREVISTA, fecha, 20000.0);
+        crearOferta(indra, "Dev Frontend", Estado.PENDIENTE, fecha, 30000.0);
+        crearOferta(accenture, "Backend", Estado.ENTREVISTA, fecha, 30000.0);
+
+        FiltroOfertas filtro = new FiltroOfertas(null, Estado.ENTREVISTA, "indra",
+                25000.0, 35000.0, null, null);
+        List<Oferta> resultado = ofertas.buscar(filtro);
+
+        assertEquals(List.of("Dev Java"), resultado.stream().map(Oferta::titulo).toList());
+    }
+
+    @Test
     void sinFiltrosDevuelveLasMasRecientesPrimero() {
         Empresa indra = crearEmpresa("Indra");
         crearOferta(indra, "Antigua", Estado.PENDIENTE, LocalDate.of(2026, 8, 1), null);
