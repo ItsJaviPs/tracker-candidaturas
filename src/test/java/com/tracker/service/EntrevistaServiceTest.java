@@ -66,6 +66,14 @@ class EntrevistaServiceTest {
     }
 
     @Test
+    void guardarSinSeleccionarTipoOResultadoLanzaExcepcion() {
+        LocalDate fecha = LocalDate.of(2026, 10, 10);
+        assertThrows(TrackerException.class, () -> servicio.guardar(entrevista(OFERTA, fecha, null, "pendiente")));
+        assertThrows(TrackerException.class, () -> servicio.guardar(entrevista(OFERTA, fecha, "técnica", null)));
+        verify(repositorio, never()).save(any(Entrevista.class));
+    }
+
+    @Test
     void guardarUnaEntrevistaValidaLaEnviaAlRepositorio() {
         Entrevista valida = entrevista(OFERTA, LocalDate.of(2026, 10, 10), "técnica", "pendiente");
         when(repositorio.save(valida)).thenReturn(valida);

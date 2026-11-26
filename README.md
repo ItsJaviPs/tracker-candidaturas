@@ -180,7 +180,7 @@ interfaz de consola se sustituye por una aplicación gráfica JavaFX con las pan
    [`data/candidaturas.csv`](data/candidaturas.csv). Importar el mismo fichero dos veces no duplica datos.
 6. **Pruebas:** `mvn test` o `mvn clean package`. Los tests de los repositorios usan H2 en memoria y no necesitan
    MySQL; la prueba de conexión real (`ConexionBdTest`) se omite si no hay configuración. En la última ejecución
-   `mvn clean verify` terminó correctamente con JDK 27 y compilación para Java 24: 102 pruebas correctas, incluida la conexión a MySQL 8.4.
+   `mvn clean verify` terminó correctamente con JDK 27 y compilación para Java 24: 103 pruebas correctas, incluida la conexión a MySQL 8.4.
    El script `db/schema.sql` se verificó por separado en MySQL 8.4: creó las tres tablas y sus dos claves foráneas.
 
 ## Funcionalidades

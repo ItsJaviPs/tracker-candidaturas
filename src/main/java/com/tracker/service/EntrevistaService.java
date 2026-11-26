@@ -55,10 +55,10 @@ public class EntrevistaService {
         if (entrevista.fecha() == null) {
             throw new TrackerException("La fecha de la entrevista es obligatoria.");
         }
-        if (!TIPOS.contains(entrevista.tipo())) {
+        if (entrevista.tipo() == null || !TIPOS.contains(entrevista.tipo())) {
             throw new TrackerException("Tipo de entrevista no válido. Valores permitidos: " + TIPOS);
         }
-        if (!RESULTADOS.contains(entrevista.resultado())) {
+        if (entrevista.resultado() == null || !RESULTADOS.contains(entrevista.resultado())) {
             throw new TrackerException("Resultado no válido. Valores permitidos: " + RESULTADOS);
         }
         return repositorio.save(entrevista);
