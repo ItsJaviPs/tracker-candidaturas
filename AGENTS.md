@@ -9,7 +9,7 @@ transparencia.
 | Herramienta | Uso |
 |-------------|-----|
 | Claude (Anthropic) | Asistente de código y documentación, y tutor paso a paso en Git, IntelliJ, MySQL, Scene Builder y Figma |
-| ChatGPT | Asistencia en las pruebas y la documentación de la v1.0 (Daniel García) |
+| ChatGPT | Asistencia en las pruebas y la documentación de la v1.0, revisión estática de la v2.0 y preparación de una prueba JDBC de filtros combinados (solicitadas por Daniel García) |
 
 ---
 
@@ -109,7 +109,7 @@ transparencia.
 - Gestión del repositorio y de la documentación.
 
 **Daniel García**
-- *(Pendiente de completar por Daniel con las tareas realizadas en la v2.0.)*
+- Revisión del alcance de la v2.0 y preparación, con asistencia de ChatGPT, de una prueba JDBC que combina empresa, estado y salario.
 
 ## Revisión
 
